@@ -38,14 +38,14 @@ namespace Projekt4.Drawers
         private static Matrix _GetDefaultViewMatrix()
         {
             return Matrix.CreateLookAt(
-                new Vector3(0, 0, 5),
+                new Vector3(0, 0, 1),
                 Vector3.Zero,
                 Vector3.UnitY);
         }
 
         private static Vector3 _GetDefaultViewerPosition()
         {
-            return new Vector3(0, 0, 5);
+            return new Vector3(0, 0, 1);
         }
 
         private static Matrix _GetDefaultProjectionMatrix(GraphicsDevice graphicsDevice)

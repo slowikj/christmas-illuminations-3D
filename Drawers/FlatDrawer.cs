@@ -25,6 +25,7 @@ namespace Projekt4.Drawers
             {
                 Matrix resultWorld = drawableObject.MeshesInfo.LocalToGlobalMatrices[i] * drawableObject.WorldMatrix;
                 _effect.Parameters["World"].SetValue(resultWorld);
+                _effect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(resultWorld)));
 
                 _DrawTriangles(drawableObject.MeshesInfo.FlatTriangles[i]);
             }

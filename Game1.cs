@@ -77,7 +77,7 @@ namespace Projekt4
         
         private void _LoadModels()
         {
-            _model = Content.Load<Model>("Models/kitty");
+            _model = Content.Load<Model>("Models/ball2");
         }
 
         private void _LoadShaders()
@@ -89,11 +89,11 @@ namespace Projekt4
         {
             List<DrawableObject> res = new List<DrawableObject>();
 
-            res.Add(new DrawableObject(_model, Vector3.Zero, Color.Blue,
+            res.Add(new DrawableObject(_model, Vector3.Zero, Color.Cyan,
                                        new ReflectanceFactors(new Vector3((float)0.1, (float)0.1, (float)0.1),
                                        new Vector3((float)1, (float)1, (float)1),
                                        new Vector3((float)1, (float)1, (float)1),
-                                       200),
+                                       5000),
                                        new RotationInfo(0, 0, 0)));
             
 
@@ -102,7 +102,7 @@ namespace Projekt4
 
         private LightingInfo _GetLightingInfo(IEnumerable<DrawableObject> lights)
         {
-            return new LightingInfo(new Vector3[] { new Vector3(0, 0, 1) }, new Vector3[] { new Vector3(1, 0, 0) });
+            return new LightingInfo(new Vector3[] { new Vector3(0, 0, 10) }, new Vector3[] { new Vector3(1, 0, 0) });
         }
 
         /// <summary>

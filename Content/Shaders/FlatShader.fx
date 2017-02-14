@@ -13,7 +13,7 @@ float4x4 Projection;
 float3 ViewerPosition;
 float4x4 WorldInverseTranspose;
 
-#define LIGHTS_MAX 200
+#define LIGHTS_MAX 100
 
 int LightsNum;
 
@@ -45,22 +45,22 @@ ShaderData VertexShaderFunction(ShaderData input)
 	float3 worldPosition = a;
 
 	output.Normal = normalize(mul(input.Normal, WorldInverseTranspose));
+
 	//output.Normal = normalize(input.Normal);
 	
 	float3 c = AmbientColor * 0.0;
 	for (int i = 0; i < LightsNum; ++i)
 	{
-		float3 lightDirection = normalize(mul(normalize(LightPosition[i] - worldPosition), World));
-		//float3 lightDirection = normalize(LightPosition[i] - worldPosition);
-		float3 r = normalize(2 * dot(lightDirection, output.Normal) * output.Normal - lightDirection);//reflect(lightDirection, output.Normal));
-		//2 * dot(light, normal) * normal - light
+		float3 lightDirection = normalize(LightPosition[i] - worldPosition);
+
+		float3 r = normalize(2 * dot(lightDirection, output.Normal) * output.Normal - lightDirection);
 		float3 v = normalize(worldPosition - ViewerPosition);
 
-		float3 diffuse = (dot(lightDirection, output.Normal) * input.Color);
+		float3 diffuse = (dot(lightDirection, output.Normal) * input.Color * 2);
 		float3 specular = (max(pow(dot(r, v), Shininess), 0)) * LightColor[i];
 		
 
-		c += (diffuse + specular) ;
+		c += (diffuse + specular);
 	}
 
 	c = saturate(c);
@@ -80,7 +80,7 @@ technique Technique1
 {
 	pass Pass1
 	{
-		VertexShader = compile vs_5_0 VertexShaderFunction();
-		PixelShader = compile ps_4_0 PixelShaderFunction();
+		VertexShader = compile vs_4_0_level_9_1 VertexShaderFunction();
+		PixelShader = compile ps_5_0 PixelShaderFunction();
 	}
 };

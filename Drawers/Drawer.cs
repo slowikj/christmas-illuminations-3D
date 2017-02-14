@@ -35,11 +35,11 @@ namespace Projekt4.Drawers
 
         protected void _SetEffectParameters(DrawableObject drawableObject)
         {
-            _effect.Parameters["World"].SetValue(drawableObject.WorldMatrix);
+            //_effect.Parameters["World"].SetValue(drawableObject.WorldMatrix);
             _effect.Parameters["View"].SetValue(_drawingKit.ViewMatrix);
             _effect.Parameters["ViewerPosition"].SetValue(_drawingKit.ViewerPosition);
             _effect.Parameters["Projection"].SetValue(_drawingKit.ProjectionMatrix);
-            _effect.Parameters["WorldInverseTranspose"].SetValue(drawableObject.WorldInverseTranspose);
+            //_effect.Parameters["WorldInverseTranspose"].SetValue(drawableObject.WorldInverseTranspose);
             _effect.Parameters["LightsNum"].SetValue(_drawingKit.LightingInfo.Count);
             _effect.Parameters["LightPosition"].SetValue(_drawingKit.LightingInfo.Positions);
             _effect.Parameters["LightColor"].SetValue(_drawingKit.LightingInfo.Colors);

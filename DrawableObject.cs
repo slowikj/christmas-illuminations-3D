@@ -16,7 +16,6 @@ namespace Projekt4
     {
         public MeshesInfo MeshesInfo { get; private set; }
         public Matrix WorldMatrix { get; private set; }
-        public Matrix WorldInverseTranspose { get; private set; }
         public Vector3 Position { get; private set; }
         public Vector3 ViewVector { get; private set; }
 
@@ -85,8 +84,6 @@ namespace Projekt4
                 this.RotationInfo.YRotate,
                 this.RotationInfo.ZRotate);
 
-            this.WorldInverseTranspose = _GetTransposedInversedMatrix(this.WorldMatrix);
-
             float angle = this.RotationInfo.YRotate;
 
             this.ViewVector = new Vector3((float)(-_DEFAULT_FORWARD_VECTOR.X * Math.Cos(angle) + _DEFAULT_FORWARD_VECTOR.Z * Math.Sin(angle)),
@@ -105,11 +102,6 @@ namespace Projekt4
                 * Matrix.CreateRotationY(yRotate)
                 * Matrix.CreateRotationZ(zRotate)
                 * Matrix.CreateTranslation(position);
-        }
-
-        private Matrix _GetTransposedInversedMatrix(Matrix matrix)
-        {
-            return Matrix.Transpose(Matrix.Invert(matrix));
         }
     }
 }
