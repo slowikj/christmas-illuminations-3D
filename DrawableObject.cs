@@ -14,8 +14,7 @@ namespace Projekt4
 {
     public class DrawableObject
     {
-        public VertexPositionNormalColor[] SmoothTriangles { get; private set; }
-        public VertexPositionNormalColor[] FlatTriangles { get; private set; }
+        public MeshesInfo MeshesInfo { get; private set; }
         public Matrix WorldMatrix { get; private set; }
         public Matrix WorldInverseTranspose { get; private set; }
         public Vector3 Position { get; private set; }
@@ -28,28 +27,14 @@ namespace Projekt4
 
         public ReflectanceFactors ReflectanceFactors { get; set; }
 
-        private Color _color;
-
-        public Color Color
-        {
-            get
-            {
-                return _color;
-            }
-            set
-            {
-                for(int i = 0; i < this.SmoothTriangles.Length; ++i)
-                {
-                    this.SmoothTriangles[i].Color = this.FlatTriangles[i].Color = value;
-                }
-            }
-        }
+        public Color Color { get; private set; }
         
         public DrawableObject(Model model, Vector3 position, Color color, ReflectanceFactors reflectanceFactors,
             RotationInfo rotationInfo)
         {
-            _PrepareTriangleLists(model, color);
-            _color = color;
+            this.MeshesInfo = new MeshesInfo(model, color);
+
+            this.Color = color;
             this.RotationInfo = rotationInfo;
             this.ReflectanceFactors = reflectanceFactors;
             this.Position = position;
@@ -92,79 +77,7 @@ namespace Projekt4
 
             _UpdateObject();
         }
-  
-        private void _PrepareTriangleLists(Model model, Color color)
-        {
-            this.SmoothTriangles = _GetTriangles(model, color,
-                (vertices, indices) =>
-                {
-                    List<VertexPositionNormalColor> res = new List<VertexPositionNormalColor>();
-                    foreach (short index in indices)
-                    {
-                        res.Add(new VertexPositionNormalColor(vertices[index].Position,
-                            vertices[index].Normal,
-                            color));
-                    }
-
-                    return res;
-                });
-
-            this.FlatTriangles = _GetTriangles(model, color,
-                (vertices, indices) =>
-                {
-                    List<VertexPositionNormalColor> res = new List<VertexPositionNormalColor>();
-                    foreach (short index in indices)
-                    {
-                        res.Add(new VertexPositionNormalColor(vertices[index].Position,
-                            (res.Count % 3 == 0 ? vertices[index].Normal : res[res.Count - 1].Normal),
-                            color));
-                    }
-
-                    return res;
-                });
-        }
         
-        private VertexPositionNormalColor[] _GetTriangles(Model model, Color color,
-            Func<VertexPositionNormalColor[], short[], List<VertexPositionNormalColor>> prepareTriangles)
-        {
-            List<VertexPositionNormalColor> res = new List<VertexPositionNormalColor>(); 
-            
-            foreach (ModelMesh mesh in model.Meshes)
-            {
-                foreach (ModelMeshPart part in mesh.MeshParts)
-                {
-                    res.AddRange(_GetVerticesFromPart(part, prepareTriangles));
-                }
-            }
-
-            return res.ToArray();
-        }
-
-        private List<VertexPositionNormalColor> _GetVerticesFromPart(ModelMeshPart part,
-            Func<VertexPositionNormalColor[], short[], List<VertexPositionNormalColor>> prepareTriangles)
-        {
-            VertexDeclaration declaration = part.VertexBuffer.VertexDeclaration;
-            VertexElement[] vertexElements = declaration.GetVertexElements();
-            VertexElement vertexPosition = new VertexElement();
-
-            VertexPositionNormalColor[] vertices = new VertexPositionNormalColor[part.NumVertices];
-
-            part.VertexBuffer.GetData<VertexPositionNormalColor>(
-                part.VertexOffset * declaration.VertexStride + vertexPosition.Offset,
-                vertices,
-                0,
-                part.NumVertices,
-                declaration.VertexStride);
-
-            short[] indices = new short[part.PrimitiveCount * 3];
-            part.IndexBuffer.GetData<short>(
-                part.StartIndex * 2,
-                indices,
-                0,
-                part.PrimitiveCount * 3);
-
-            return prepareTriangles(vertices, indices);
-        }
         private void _UpdateObject()
         {
             this.WorldMatrix = _GetWorldMatrix(this.Position,

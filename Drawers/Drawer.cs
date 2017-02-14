@@ -23,7 +23,7 @@ namespace Projekt4.Drawers
 
         public abstract void Draw(DrawableObject drawableObject);
 
-        protected void _Draw(VertexPositionNormalColor[] triangleList)
+        protected void _DrawTriangles(VertexPositionNormalColor[] triangleList)
         {
             foreach (EffectPass pass in _effect.CurrentTechnique.Passes)
             {

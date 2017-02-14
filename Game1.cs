@@ -94,7 +94,7 @@ namespace Projekt4
                                        new Vector3((float)1, (float)1, (float)1),
                                        new Vector3((float)1, (float)1, (float)1),
                                        200),
-                                       new RotationInfo(-MathHelper.PiOver2, 0, 0)));
+                                       new RotationInfo(0, 0, 0)));
             
 
             return res;

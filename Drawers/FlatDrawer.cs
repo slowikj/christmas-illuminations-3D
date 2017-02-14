@@ -20,7 +20,14 @@ namespace Projekt4.Drawers
         public override void Draw(DrawableObject drawableObject)
         {
             _SetEffectParameters(drawableObject);
-            _Draw(drawableObject.FlatTriangles);
+            
+            for(int i = 0; i < drawableObject.MeshesInfo.LocalToGlobalMatrices.Count; ++i)
+            {
+                Matrix resultWorld = drawableObject.MeshesInfo.LocalToGlobalMatrices[i] * drawableObject.WorldMatrix;
+                _effect.Parameters["World"].SetValue(resultWorld);
+
+                _DrawTriangles(drawableObject.MeshesInfo.FlatTriangles[i]);
+            }
         }
     }
 }
