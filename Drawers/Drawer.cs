@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using Projekt4.DrawableObjects;
+
 namespace Projekt4.Drawers
 {
     public abstract class Drawer

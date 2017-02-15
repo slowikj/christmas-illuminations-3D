@@ -9,11 +9,13 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 using Projekt4.Drawers;
+using Projekt4.Cameras;
 
-namespace Projekt4
+namespace Projekt4.DrawableObjects
 {
     public class DrawableObject
     {
+        public event EventHandler<ObjectChangedEventArgs> ObjectChanged;
         public MeshesInfo MeshesInfo { get; private set; }
         public Matrix WorldMatrix { get; private set; }
         public Vector3 Position { get; private set; }
@@ -92,7 +94,16 @@ namespace Projekt4
 
             this.ViewVector.Normalize();
             this.ViewVector /= 8;
-         
+
+            this.FireObjectChangedEvent();         
+        }
+
+        private void FireObjectChangedEvent()
+        {
+            if(this.ObjectChanged != null)
+            {
+                this.ObjectChanged(this, new ObjectChangedEventArgs(this.Position, this.Position + this.ViewVector));
+            }
         }
 
         private Matrix _GetWorldMatrix(Vector3 position,

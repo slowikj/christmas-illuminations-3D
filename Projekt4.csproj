@@ -38,17 +38,23 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Cameras\Camera.cs" />
+    <Compile Include="Cameras\CameraManager.cs" />
+    <Compile Include="Cameras\ConstantCamera.cs" />
+    <Compile Include="Cameras\MoveableObjectCamera.cs" />
+    <Compile Include="Cameras\StationaryObjectCamera.cs" />
+    <Compile Include="DrawableObjects\ObjectChangedEventArgs.cs" />
     <Compile Include="Drawers\Drawer.cs" />
     <Compile Include="Drawers\DrawingKit.cs" />
     <Compile Include="Drawers\FlatDrawer.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="DrawableObject.cs" />
+    <Compile Include="DrawableObjects\DrawableObject.cs" />
     <Compile Include="LightingInfo.cs" />
-    <Compile Include="MeshesInfo.cs" />
+    <Compile Include="DrawableObjects\MeshesInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectanceFactors.cs" />
-    <Compile Include="RotationInfo.cs" />
+    <Compile Include="DrawableObjects\ReflectanceFactors.cs" />
+    <Compile Include="DrawableObjects\RotationInfo.cs" />
     <Compile Include="VertexPositionNormalColor.cs" />
   </ItemGroup>
   <ItemGroup>

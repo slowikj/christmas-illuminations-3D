@@ -56,7 +56,7 @@ ShaderData VertexShaderFunction(ShaderData input)
 		float3 r = normalize(2 * dot(lightDirection, output.Normal) * output.Normal - lightDirection);
 		float3 v = normalize(worldPosition - ViewerPosition);
 
-		float3 diffuse = (dot(lightDirection, output.Normal) * input.Color * 2);
+		float3 diffuse = (dot(normalize(LightPosition[i]), output.Normal) * input.Color * 2);
 		float3 specular = (max(pow(dot(r, v), Shininess), 0)) * LightColor[i];
 		
 

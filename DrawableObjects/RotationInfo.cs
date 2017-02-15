@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Projekt4
+namespace Projekt4.DrawableObjects
 {
     public class RotationInfo
     {

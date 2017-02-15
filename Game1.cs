@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 using Projekt4.Drawers;
+using Projekt4.DrawableObjects;
+using Projekt4.Cameras;
 
 namespace Projekt4
 {
@@ -29,6 +31,8 @@ namespace Projekt4
 
         private Drawer _drawer;
         private Effect _flatShader;
+
+        private CameraManager _cameraManager;
         
         public Game1()
         {
@@ -66,8 +70,15 @@ namespace Projekt4
             _drawableObjects = _GetDrawableObjects();
             _moveableObject = _drawableObjects[0];
 
+            _PrepareCameraManager();
+
             _lightingInfo = _GetLightingInfo(_drawableObjects);
-            _drawingKit = new DrawingKit(this.GraphicsDevice, _lightingInfo);
+            _drawingKit = new DrawingKit(
+                _cameraManager.ViewMatrix,
+                DrawingKit.GetDefaultProjectionMatrix(this.GraphicsDevice),
+                _cameraManager.ViewerPosition,
+                this.GraphicsDevice,
+                _lightingInfo);
 
             _LoadShaders();
             _drawer = new FlatDrawer(_drawingKit, _flatShader);
@@ -77,7 +88,7 @@ namespace Projekt4
         
         private void _LoadModels()
         {
-            _model = Content.Load<Model>("Models/ball2");
+            _model = Content.Load<Model>("Models/kitty");
         }
 
         private void _LoadShaders()
@@ -98,6 +109,22 @@ namespace Projekt4
             
 
             return res;
+        }
+
+        private void _PrepareCameraManager()
+        {
+            _cameraManager = new CameraManager();
+
+            _cameraManager.AddCamera("Constant",
+                new ConstantCamera(new Vector3(0,0,1), Vector3.Zero));
+
+            _cameraManager.AddCamera("StationaryObjectCamera",
+                new StationaryObjectCamera(new Vector3(0, 0, 1), _moveableObject));
+
+            _cameraManager.AddCamera("MoveableObjectCamera",
+                new MoveableObjectCamera(_moveableObject));
+
+            _cameraManager.SetCamera("Constant");
         }
 
         private LightingInfo _GetLightingInfo(IEnumerable<DrawableObject> lights)
@@ -125,9 +152,24 @@ namespace Projekt4
                 Exit();
 
             KeyboardState keyboardState = Keyboard.GetState();
+            
+            if(keyboardState.IsKeyDown(Keys.LeftControl))
+            {
+                _SetCamera(keyboardState);
+            }
+            else
+            {
+                _MoveObject(keyboardState);
+            }
+
+            base.Update(gameTime);
+        }
+
+        private void _MoveObject(KeyboardState keyboardState)
+        {
             foreach (Keys key in keyboardState.GetPressedKeys())
             {
-                switch(key)
+                switch (key)
                 {
                     case Keys.Left: _moveableObject.RotateAntiClockwise(); break;
                     case Keys.Right: _moveableObject.RotateClockwise(); break;
@@ -135,8 +177,19 @@ namespace Projekt4
                     case Keys.Down: _moveableObject.MoveBackward(); break;
                 }
             }
+        }
 
-            base.Update(gameTime);
+        private void _SetCamera(KeyboardState keyboardState)
+        {
+            foreach (Keys key in keyboardState.GetPressedKeys())
+            {
+                switch (key)
+                {
+                    case Keys.C: _cameraManager.SetCamera("Constant"); break;
+                    case Keys.M: _cameraManager.SetCamera("MoveableObjectCamera"); break;
+                    case Keys.S: _cameraManager.SetCamera("StationaryObjectCamera"); break;
+                }
+            }
         }
 
         /// <summary>
@@ -148,6 +201,9 @@ namespace Projekt4
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
+            _drawingKit.ViewMatrix = _cameraManager.ViewMatrix;
+            _drawingKit.ViewerPosition = _cameraManager.ViewerPosition;
 
             foreach(DrawableObject drawableObject in _drawableObjects)
             {

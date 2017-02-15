@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-
-namespace Projekt4
+namespace Projekt4.DrawableObjects
 {
     public struct ReflectanceFactors
     {

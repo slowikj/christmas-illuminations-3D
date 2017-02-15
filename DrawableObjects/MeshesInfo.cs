@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace Projekt4
+namespace Projekt4.DrawableObjects
 {
     public class MeshesInfo
     {

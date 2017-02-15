@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using Projekt4.DrawableObjects;
+
 namespace Projekt4.Drawers
 {
     public class DrawingKit
@@ -28,27 +30,9 @@ namespace Projekt4.Drawers
             this.GraphicsDevice = graphicsDevice;
             this.LightingInfo = lightingInfo;
         }
+        
 
-        public DrawingKit(GraphicsDevice graphicsDevice, LightingInfo lightingInfo)
-            : this(_GetDefaultViewMatrix(), _GetDefaultProjectionMatrix(graphicsDevice), _GetDefaultViewerPosition(),
-                  graphicsDevice, lightingInfo)
-        {
-        }
-
-        private static Matrix _GetDefaultViewMatrix()
-        {
-            return Matrix.CreateLookAt(
-                new Vector3(0, 0, 1),
-                Vector3.Zero,
-                Vector3.UnitY);
-        }
-
-        private static Vector3 _GetDefaultViewerPosition()
-        {
-            return new Vector3(0, 0, 1);
-        }
-
-        private static Matrix _GetDefaultProjectionMatrix(GraphicsDevice graphicsDevice)
+        public static Matrix GetDefaultProjectionMatrix(GraphicsDevice graphicsDevice)
         {
             return Matrix.CreatePerspectiveFieldOfView(
                  MathHelper.PiOver4,
