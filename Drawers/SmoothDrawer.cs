@@ -12,9 +12,9 @@ using Projekt4.DrawableObjects;
 
 namespace Projekt4.Drawers
 {
-    public class FlatDrawer : Drawer
+    public class SmoothDrawer : Drawer
     {
-        public FlatDrawer(DrawingKit drawingKit, Effect effect)
+        public SmoothDrawer(DrawingKit drawingKit, Effect effect)
             : base(drawingKit, effect)
         {
         }
@@ -29,7 +29,7 @@ namespace Projekt4.Drawers
                 _effect.Parameters["World"].SetValue(resultWorld);
                 _effect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(resultWorld)));
 
-                _DrawTriangles(drawableObject.MeshesInfo.FlatTriangles[i]);
+                _DrawTriangles(drawableObject.MeshesInfo.SmoothTriangles[i]);
             }
         }
     }

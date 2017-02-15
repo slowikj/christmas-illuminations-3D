@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/PhongShader.fx</SourceFile>
+  <SourceTime>2017-02-15T20:07:00.3623009+01:00</SourceTime>
+  <DestFile>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/bin/Windows/Shaders/PhongShader.xnb</DestFile>
+  <DestTime>2017-02-15T20:07:01.7911068+01:00</DestTime>
+  <Importer>EffectImporter</Importer>
+  <ImporterTime>2016-03-30T08:36:08+02:00</ImporterTime>
+  <Processor>EffectProcessor</Processor>
+  <ProcessorTime>2016-03-30T08:36:08+02:00</ProcessorTime>
+  <Parameters>
+    <Key>DebugMode</Key>
+    <Value>Auto</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

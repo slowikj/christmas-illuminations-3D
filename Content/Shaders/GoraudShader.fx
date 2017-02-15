@@ -7,6 +7,8 @@
 #define PS_SHADERMODEL ps_4_0_level_9_3
 #endif
 
+bool PhongIllumination = true;
+
 float4x4 World;
 float4x4 View;
 float4x4 Projection;
@@ -46,18 +48,28 @@ ShaderData VertexShaderFunction(ShaderData input)
 
 	output.Normal = normalize(mul(input.Normal, WorldInverseTranspose));
 
-	//output.Normal = normalize(input.Normal);
-	
-	float3 c = AmbientColor * 0.0;
+	float3 c = AmbientColor * ka;
 	for (int i = 0; i < LightsNum; ++i)
 	{
 		float3 lightDirection = normalize(LightPosition[i] - worldPosition);
 
 		float3 r = normalize(2 * dot(lightDirection, output.Normal) * output.Normal - lightDirection);
-		float3 v = normalize(worldPosition - ViewerPosition);
+		float3 v = -normalize(worldPosition - ViewerPosition);
 
-		float3 diffuse = (dot(normalize(LightPosition[i]), output.Normal) * input.Color * 2);
-		float3 specular = (max(pow(dot(r, v), Shininess), 0)) * LightColor[i];
+		float3 diffuse = (dot(lightDirection, output.Normal) * input.Color);
+
+
+		float3 specularDotProduct;
+		if (PhongIllumination)
+		{
+			specularDotProduct = dot(r, v);
+		}
+		else
+		{
+			specularDotProduct = dot(r, normalize(lightDirection + v));
+		}
+
+		float3 specular = (max(pow(specularDotProduct, Shininess), 0)) * LightColor[i];
 		
 
 		c += (diffuse + specular);
@@ -74,7 +86,6 @@ float4 PixelShaderFunction(ShaderData input) : COLOR0
 {
 	return float4(input.Color,1);
 }
-
 
 technique Technique1
 {

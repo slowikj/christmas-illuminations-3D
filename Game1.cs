@@ -28,19 +28,17 @@ namespace Projekt4
 
         private LightingInfo _lightingInfo;
         private DrawingKit _drawingKit;
-
-        private Drawer _drawer;
-        private Effect _flatShader;
-
+       
         private CameraManager _cameraManager;
+        private DrawerManager _drawerManager;
         
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            //graphics.IsFullScreen = true;
-            //graphics.ApplyChanges();
+            graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -80,8 +78,7 @@ namespace Projekt4
                 this.GraphicsDevice,
                 _lightingInfo);
 
-            _LoadShaders();
-            _drawer = new FlatDrawer(_drawingKit, _flatShader);
+            _LoadDrawers();
 
             // TODO: use this.Content to load your game content here
         }
@@ -91,9 +88,17 @@ namespace Projekt4
             _model = Content.Load<Model>("Models/kitty");
         }
 
-        private void _LoadShaders()
+        private void _LoadDrawers()
         {
-            _flatShader = Content.Load<Effect>("Shaders/FlatShader");
+            _drawerManager = new DrawerManager();
+
+            _drawerManager.AddDrawer("Phong",
+                new SmoothDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/PhongShader")));
+
+            _drawerManager.AddDrawer("Goraud",
+                new SmoothDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/GoraudShader")));
+
+            _drawerManager.SetDrawer("Phong");
         }
 
         private List<DrawableObject> _GetDrawableObjects()
@@ -101,10 +106,10 @@ namespace Projekt4
             List<DrawableObject> res = new List<DrawableObject>();
 
             res.Add(new DrawableObject(_model, Vector3.Zero, Color.Cyan,
-                                       new ReflectanceFactors(new Vector3((float)0.1, (float)0.1, (float)0.1),
+                                       new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
                                        new Vector3((float)1, (float)1, (float)1),
-                                       new Vector3((float)1, (float)1, (float)1),
-                                       5000),
+                                       new Vector3((float)0.1, (float)0.1, (float)0.1),
+                                       500),
                                        new RotationInfo(0, 0, 0)));
             
 
@@ -129,7 +134,7 @@ namespace Projekt4
 
         private LightingInfo _GetLightingInfo(IEnumerable<DrawableObject> lights)
         {
-            return new LightingInfo(new Vector3[] { new Vector3(0, 0, 10) }, new Vector3[] { new Vector3(1, 0, 0) });
+            return new LightingInfo(new Vector3[] { new Vector3(0, 0, 5) }, new Vector3[] { new Vector3(0, 0, 1) });
         }
 
         /// <summary>
@@ -157,26 +162,20 @@ namespace Projekt4
             {
                 _SetCamera(keyboardState);
             }
+            else if (keyboardState.IsKeyDown(Keys.LeftShift))
+            {
+                _SetDrawer(keyboardState);
+            }
+            else if (keyboardState.IsKeyDown(Keys.LeftAlt))
+            {
+                _SetIlluminationModel(keyboardState);
+            }
             else
             {
                 _MoveObject(keyboardState);
             }
 
             base.Update(gameTime);
-        }
-
-        private void _MoveObject(KeyboardState keyboardState)
-        {
-            foreach (Keys key in keyboardState.GetPressedKeys())
-            {
-                switch (key)
-                {
-                    case Keys.Left: _moveableObject.RotateAntiClockwise(); break;
-                    case Keys.Right: _moveableObject.RotateClockwise(); break;
-                    case Keys.Up: _moveableObject.MoveForward(); break;
-                    case Keys.Down: _moveableObject.MoveBackward(); break;
-                }
-            }
         }
 
         private void _SetCamera(KeyboardState keyboardState)
@@ -192,13 +191,51 @@ namespace Projekt4
             }
         }
 
+        private void _SetDrawer(KeyboardState keyboardState)
+        {
+            foreach (Keys key in keyboardState.GetPressedKeys())
+            {
+                switch (key)
+                {
+                    case Keys.P: _drawerManager.SetDrawer("Phong"); break;
+                    case Keys.G: _drawerManager.SetDrawer("Goraud"); break;
+                    case Keys.F: _drawerManager.SetDrawer("Flat"); break;
+                }
+            }
+        }
+
+        private void _SetIlluminationModel (KeyboardState keyboardState)
+        {
+            foreach (Keys key in keyboardState.GetPressedKeys())
+            {
+                switch (key)
+                {
+                    case Keys.P: _drawerManager.SetPhongIllumination(); break;
+                    case Keys.B: _drawerManager.SetBlinnIllumination(); break;
+                }
+            }
+        }
+        private void _MoveObject(KeyboardState keyboardState)
+        {
+            foreach (Keys key in keyboardState.GetPressedKeys())
+            {
+                switch (key)
+                {
+                    case Keys.Left: _moveableObject.RotateAntiClockwise(); break;
+                    case Keys.Right: _moveableObject.RotateClockwise(); break;
+                    case Keys.Up: _moveableObject.MoveForward(); break;
+                    case Keys.Down: _moveableObject.MoveBackward(); break;
+                }
+            }
+        }
+        
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 
@@ -207,7 +244,7 @@ namespace Projekt4
 
             foreach(DrawableObject drawableObject in _drawableObjects)
             {
-                drawableObject.Draw(_drawer);
+                drawableObject.Draw(_drawerManager.CurrentDrawer);
             }
 
             base.Draw(gameTime);

@@ -31,3 +31,5 @@ C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\ball2.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\ball4.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\lowpolytree.xnb
+C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Shaders\GoraudShader.xnb
+C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Shaders\PhongShader.xnb

@@ -23,6 +23,17 @@ namespace Projekt4.Drawers
             _effect = effect;
         }
 
+
+        public void SetPhongIllumination()
+        {
+            _effect.Parameters["PhongIllumination"].SetValue(true);
+        }
+
+        public void SetBlinnIllumination()
+        {
+            _effect.Parameters["PhongIllumination"].SetValue(false);
+        }
+
         public abstract void Draw(DrawableObject drawableObject);
 
         protected void _DrawTriangles(VertexPositionNormalColor[] triangleList)
