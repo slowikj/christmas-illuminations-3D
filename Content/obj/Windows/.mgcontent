@@ -4,17 +4,12 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/ball3.fbx</File>
-    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/kitty.fbx</File>
-    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/ball5.fbx</File>
-    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/ball.fbx</File>
-    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/ball2.fbx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/../../../../../ball3.fbx</File>
-    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/ball4.fbx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/lowpolytree.fbx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/GoraudShader.fx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/PhongShader.fx</File>
-    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/myMonster.fbx</File>
+    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/cats/kitty0.fbx</File>
+    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/cats/kitty1.fbx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/FlatShader.fx</File>
   </SourceFiles>
 </SourceFileCollection>

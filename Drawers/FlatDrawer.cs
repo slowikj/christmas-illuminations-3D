@@ -23,7 +23,7 @@ namespace Projekt4.Drawers
         {
             _SetEffectParameters(drawableObject);
 
-            MeshesInfo meshesInfo = drawableObject.MeshesInfo;
+            MeshesInfo meshesInfo = drawableObject.CurrentMesh;
             for(int i = 0; i < meshesInfo.LocalToGlobalMatrices.Count; ++i)
             {
                 _SetWorldMatrices(meshesInfo.LocalToGlobalMatrices[i], drawableObject.WorldMatrix);
@@ -31,7 +31,7 @@ namespace Projekt4.Drawers
                 for(int j = 0; j < meshesInfo.SidePositions[i].Length; ++j)
                 {
                     _effect.Parameters["SidePosition"].SetValue(meshesInfo.SidePositions[i][j]);
-                    _DrawTriangles(drawableObject.MeshesInfo.FlatTriangles[i].Skip(j * 3).Take(3).ToArray());
+                    _DrawTriangles(meshesInfo.FlatTriangles[i].Skip(j * 3).Take(3).ToArray());
                 }
 
             }

@@ -1,5 +1,3 @@
-C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\ball3.xnb
-C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Shaders\FlatShader.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Projekt4.exe
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Projekt4.pdb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\MonoGame.Framework.dll
@@ -25,12 +23,9 @@ C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\obj\x86\Debug\Projekt4.csprojResolveAssemblyReference.cache
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\obj\x86\Debug\Projekt4.exe
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\obj\x86\Debug\Projekt4.pdb
-C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\kitty.xnb
-C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\ball5.xnb
-C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\ball.xnb
-C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\ball2.xnb
-C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\ball4.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\lowpolytree.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Shaders\GoraudShader.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Shaders\PhongShader.xnb
-C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\myMonster.xnb
+C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\cats\kitty0.xnb
+C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\cats\kitty1.xnb
+C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Shaders\FlatShader.xnb

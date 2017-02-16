@@ -22,7 +22,7 @@ namespace Projekt4
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private Model _model;
+        private Model[] _model;
         private List<DrawableObject> _drawableObjects;
         DrawableObject _moveableObject;
 
@@ -37,8 +37,8 @@ namespace Projekt4
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.IsFullScreen = true;
-            graphics.ApplyChanges();
+            //graphics.IsFullScreen = true;
+            //graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Projekt4
         
         private void _LoadModels()
         {
-            _model = Content.Load<Model>("Models/kitty");
+            _model = new Model[] { Content.Load<Model>("Models/cats/kitty0"), Content.Load<Model>("Models/cats/kitty1") };
         }
 
         private void _LoadDrawers()

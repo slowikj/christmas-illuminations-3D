@@ -16,7 +16,12 @@ namespace Projekt4.DrawableObjects
     public class DrawableObject
     {
         public event EventHandler<ObjectChangedEventArgs> ObjectChanged;
-        public MeshesInfo MeshesInfo { get; private set; }
+        private MeshesInfo[] _meshesInfo;
+        private int _currentFrame;
+        public MeshesInfo CurrentMesh
+        {
+            get { return _meshesInfo[_currentFrame]; }
+        }
         public Matrix WorldMatrix { get; private set; }
         public Vector3 Position { get; private set; }
         public Vector3 ViewVector { get; private set; }
@@ -30,15 +35,17 @@ namespace Projekt4.DrawableObjects
 
         public Color Color { get; private set; }
         
-        public DrawableObject(Model model, Vector3 position, Color color, ReflectanceFactors reflectanceFactors,
+        public DrawableObject(Model[] models, Vector3 position, Color color, ReflectanceFactors reflectanceFactors,
             RotationInfo rotationInfo)
         {
-            this.MeshesInfo = new MeshesInfo(model, color);
+            _meshesInfo = models.Select(model => new MeshesInfo(model, color)).ToArray();
 
             this.Color = color;
             this.RotationInfo = rotationInfo;
             this.ReflectanceFactors = reflectanceFactors;
             this.Position = position;
+
+            _currentFrame = 0;
             
             _UpdateObject();            
         }
@@ -69,12 +76,18 @@ namespace Projekt4.DrawableObjects
         {
             this.Position += this.ViewVector;
 
+            _currentFrame = (_currentFrame + 1 == this._meshesInfo.Length
+                ? 0 : _currentFrame + 1);
+
             _UpdateObject();
         }
 
         public void MoveBackward()
         {
             this.Position -= this.ViewVector;
+
+            _currentFrame = (_currentFrame == 0
+                ? _currentFrame = this._meshesInfo.Length - 1 : _currentFrame - 1);
 
             _UpdateObject();
         }
@@ -100,10 +113,7 @@ namespace Projekt4.DrawableObjects
 
         private void FireObjectChangedEvent()
         {
-            if(this.ObjectChanged != null)
-            {
-                this.ObjectChanged(this, new ObjectChangedEventArgs(this.Position, this.Position + this.ViewVector));
-            }
+            this.ObjectChanged?.Invoke(this, new ObjectChangedEventArgs(this.Position, this.Position + this.ViewVector));
         }
 
         private Matrix _GetWorldMatrix(Vector3 position,

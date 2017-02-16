@@ -12,7 +12,7 @@ namespace Projekt4.DrawableObjects
 {
     public class MeshesInfo
     {
-        public List<VertexPositionNormalColor[]> SmoothTriangles { get; private set; }
+        public List<VertexPositionNormalColor[]> SmoothVertices { get; private set; }
         public List<VertexPositionNormalColor[]> FlatTriangles { get; private set; }
         public List<Vector3[]> SidePositions { get; private set; }
         public List<Matrix> LocalToGlobalMatrices { get; private set; }
@@ -20,9 +20,9 @@ namespace Projekt4.DrawableObjects
 
         public MeshesInfo(Model model, Color color)
         {
-            this.SmoothTriangles = _GetSmoothTriangles(model, color);
+            this.SmoothVertices = _GetSmoothTriangles(model, color);
             this.FlatTriangles = _GetFlatTriangles(model, color);
-            this.SidePositions = _GetSidePositions(this.SmoothTriangles);
+            this.SidePositions = _GetSidePositions(this.SmoothVertices);
             this.LocalToGlobalMatrices = _GetLocalToGlobalMatrices(model);
         }
         

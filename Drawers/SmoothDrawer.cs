@@ -22,12 +22,14 @@ namespace Projekt4.Drawers
         public override void Draw(DrawableObject drawableObject)
         {
             _SetEffectParameters(drawableObject);
-            
-            for(int i = 0; i < drawableObject.MeshesInfo.LocalToGlobalMatrices.Count; ++i)
-            {
-                _SetWorldMatrices(drawableObject.MeshesInfo.LocalToGlobalMatrices[i], drawableObject.WorldMatrix);
 
-                _DrawTriangles(drawableObject.MeshesInfo.SmoothTriangles[i]);
+            MeshesInfo meshInfo = drawableObject.CurrentMesh;
+
+            for(int i = 0; i < meshInfo.LocalToGlobalMatrices.Count; ++i)
+            {
+                _SetWorldMatrices(meshInfo.LocalToGlobalMatrices[i], drawableObject.WorldMatrix);
+
+                _DrawTriangles(meshInfo.SmoothVertices[i]);
             }
         }
     }
