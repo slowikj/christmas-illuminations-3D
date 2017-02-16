@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/FlatShader.fx</SourceFile>
-  <SourceTime>2017-02-15T00:26:58.4744778+01:00</SourceTime>
+  <SourceTime>2017-02-16T12:04:52.8389931+01:00</SourceTime>
   <DestFile>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/bin/Windows/Shaders/FlatShader.xnb</DestFile>
-  <DestTime>2017-02-15T00:27:00.2287767+01:00</DestTime>
+  <DestTime>2017-02-16T12:11:06.3598511+01:00</DestTime>
   <Importer>EffectImporter</Importer>
   <ImporterTime>2016-03-30T08:36:08+02:00</ImporterTime>
   <Processor>EffectProcessor</Processor>

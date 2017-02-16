@@ -14,6 +14,7 @@ namespace Projekt4.DrawableObjects
     {
         public List<VertexPositionNormalColor[]> SmoothTriangles { get; private set; }
         public List<VertexPositionNormalColor[]> FlatTriangles { get; private set; }
+        public List<Vector3[]> SidePositions { get; private set; }
         public List<Matrix> LocalToGlobalMatrices { get; private set; }
 
 
@@ -21,6 +22,7 @@ namespace Projekt4.DrawableObjects
         {
             this.SmoothTriangles = _GetSmoothTriangles(model, color);
             this.FlatTriangles = _GetFlatTriangles(model, color);
+            this.SidePositions = _GetSidePositions(this.SmoothTriangles);
             this.LocalToGlobalMatrices = _GetLocalToGlobalMatrices(model);
         }
         
@@ -53,11 +55,6 @@ namespace Projekt4.DrawableObjects
              };
 
             return _GetTriangles(model, prepareTriangles);
-        }
-
-        private Vector3 _GetAverageOfVectors(params Vector3[] vectors)
-        {
-            return vectors.Aggregate((a, b) => a + b) / vectors.Length;
         }
 
         private List<Matrix> _GetLocalToGlobalMatrices(Model model)
@@ -114,6 +111,34 @@ namespace Projekt4.DrawableObjects
                 part.PrimitiveCount * 3);
 
             return prepareTriangles(vertices, indices);
+        }
+
+        private List<Vector3[]> _GetSidePositions(List<VertexPositionNormalColor[]> verticesParts)
+        {
+            List<Vector3[]> res = new List<Vector3[]>();
+            
+            foreach(var part in verticesParts)
+            {
+                res.Add(_GetSidePositionsFromPart(part));
+            }
+
+            return res;
+        }
+
+        private Vector3[] _GetSidePositionsFromPart(VertexPositionNormalColor[] vertices)
+        {
+            List<Vector3> res = new List<Vector3>();
+            for(int i = 0; i < vertices.Length; i += 3)
+            {
+                res.Add(_GetAverageOfVectors(vertices[i].Position, vertices[i + 1].Position, vertices[i + 2].Position));
+            }
+
+            return res.ToArray();
+        }
+        
+        private Vector3 _GetAverageOfVectors(params Vector3[] vectors)
+        {
+            return vectors.Aggregate((a, b) => a + b) / vectors.Length;
         }
     }
 }

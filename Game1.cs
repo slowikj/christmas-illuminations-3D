@@ -98,6 +98,9 @@ namespace Projekt4
             _drawerManager.AddDrawer("Goraud",
                 new SmoothDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/GoraudShader")));
 
+            _drawerManager.AddDrawer("Flat",
+                new FlatDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/FlatShader")));
+
             _drawerManager.SetDrawer("Phong");
         }
 

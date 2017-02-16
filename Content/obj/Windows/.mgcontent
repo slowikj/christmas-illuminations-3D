@@ -14,5 +14,7 @@
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/lowpolytree.fbx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/GoraudShader.fx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/PhongShader.fx</File>
+    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/myMonster.fbx</File>
+    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/FlatShader.fx</File>
   </SourceFiles>
 </SourceFileCollection>

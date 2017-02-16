@@ -45,7 +45,7 @@ namespace Projekt4.Drawers
                 _drawingKit.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, triangleList, 0, triangleList.Length / 3);
             }
         }
-
+        
         protected void _SetEffectParameters(DrawableObject drawableObject)
         {
             //_effect.Parameters["World"].SetValue(drawableObject.WorldMatrix);
@@ -60,6 +60,13 @@ namespace Projekt4.Drawers
             _effect.Parameters["ka"].SetValue(drawableObject.ReflectanceFactors.Ambient);
             _effect.Parameters["kd"].SetValue(drawableObject.ReflectanceFactors.Diffuse);
             _effect.Parameters["ks"].SetValue(drawableObject.ReflectanceFactors.Shininess);
+        }
+
+        protected void _SetWorldMatrices(Matrix localToGlobalMatrix, Matrix objectWorldMatrix)
+        {
+            Matrix resultWorld = localToGlobalMatrix * objectWorldMatrix;
+            _effect.Parameters["World"].SetValue(resultWorld);
+            _effect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(resultWorld)));
         }
     }
 }

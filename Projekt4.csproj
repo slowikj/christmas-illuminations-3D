@@ -47,6 +47,7 @@
     <Compile Include="Drawers\Drawer.cs" />
     <Compile Include="Drawers\DrawerManager.cs" />
     <Compile Include="Drawers\DrawingKit.cs" />
+    <Compile Include="Drawers\FlatDrawer.cs" />
     <Compile Include="Drawers\SmoothDrawer.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="DrawableObjects\DrawableObject.cs" />
