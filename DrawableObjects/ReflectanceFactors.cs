@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Projekt4.DrawableObjects
 {
-    public struct ReflectanceFactors
+    public class ReflectanceFactors
     {
         public Vector3 Ambient { get; set; }
         public Vector3 Diffuse { get; set; }

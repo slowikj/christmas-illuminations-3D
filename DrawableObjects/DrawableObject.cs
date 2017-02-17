@@ -13,7 +13,7 @@ using Projekt4.Cameras;
 
 namespace Projekt4.DrawableObjects
 {
-    public class DrawableObject
+    public class DrawableObject : IDrawable
     {
         public event EventHandler<ObjectChangedEventArgs> ObjectChanged;
         private MeshesInfo[] _meshesInfo;
@@ -35,14 +35,14 @@ namespace Projekt4.DrawableObjects
 
         public Color Color { get; private set; }
         
-        public DrawableObject(Model[] models, Vector3 position, Color color, ReflectanceFactors reflectanceFactors,
-            RotationInfo rotationInfo)
+        public DrawableObject(Model[] models, Vector3 position, Color color, ReflectanceFactors reflectanceFactors = null,
+            RotationInfo rotationInfo = null)
         {
             _meshesInfo = models.Select(model => new MeshesInfo(model, color)).ToArray();
 
             this.Color = color;
-            this.RotationInfo = rotationInfo;
-            this.ReflectanceFactors = reflectanceFactors;
+            this.RotationInfo = rotationInfo ?? new RotationInfo(0, 0, 0);
+            this.ReflectanceFactors = reflectanceFactors ?? new ReflectanceFactors(Vector3.One, Vector3.One, Vector3.One, 200);
             this.Position = position;
 
             _currentFrame = 0;

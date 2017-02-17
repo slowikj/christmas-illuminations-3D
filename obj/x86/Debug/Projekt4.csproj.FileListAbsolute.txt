@@ -29,3 +29,4 @@ C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\cats\kitty0.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\cats\kitty1.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Shaders\FlatShader.xnb
+C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\littleBall.xnb

@@ -23,7 +23,7 @@ namespace Projekt4
         SpriteBatch spriteBatch;
 
         private Model[] _model;
-        private List<DrawableObject> _drawableObjects;
+        private List<IDrawable> _drawableObjects;
         DrawableObject _moveableObject;
 
         private LightingInfo _lightingInfo;
@@ -31,6 +31,8 @@ namespace Projekt4
        
         private CameraManager _cameraManager;
         private DrawerManager _drawerManager;
+
+        private Illumination _illumination;
         
         public Game1()
         {
@@ -66,11 +68,11 @@ namespace Projekt4
             _LoadModels();
 
             _drawableObjects = _GetDrawableObjects();
-            _moveableObject = _drawableObjects[0];
+            _moveableObject = _drawableObjects[0] as DrawableObject;
 
             _PrepareCameraManager();
 
-            _lightingInfo = _GetLightingInfo(_drawableObjects);
+            _lightingInfo = _GetLightingInfo();
             _drawingKit = new DrawingKit(
                 _cameraManager.ViewMatrix,
                 DrawingKit.GetDefaultProjectionMatrix(this.GraphicsDevice),
@@ -80,12 +82,22 @@ namespace Projekt4
 
             _LoadDrawers();
 
+            PatternGenerator patternGenerator = new PatternGenerator(x => x, x => (float)Math.Sin(x), 0, (float)(2 * Math.PI));
+            _illumination = new Illumination(_model[2], patternGenerator.GetPoints(0, 5, 25),
+                Color.Magenta, new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 20));
+
+            _lightingInfo = _illumination.Lighting;
+
             // TODO: use this.Content to load your game content here
         }
         
         private void _LoadModels()
         {
-            _model = new Model[] { Content.Load<Model>("Models/cats/kitty0"), Content.Load<Model>("Models/cats/kitty1") };
+            _model = new Model[]
+            {
+                Content.Load<Model>("Models/cats/kitty0"), Content.Load<Model>("Models/cats/kitty1"),
+                Content.Load<Model>("Models/littleBall")
+            };
         }
 
         private void _LoadDrawers()
@@ -104,11 +116,11 @@ namespace Projekt4
             _drawerManager.SetDrawer("Phong");
         }
 
-        private List<DrawableObject> _GetDrawableObjects()
+        private List<IDrawable> _GetDrawableObjects()
         {
-            List<DrawableObject> res = new List<DrawableObject>();
+            List<IDrawable> res = new List<IDrawable>();
 
-            res.Add(new DrawableObject(_model, Vector3.Zero, Color.Cyan,
+            res.Add(new DrawableObject(_model.Skip(2).ToArray(), Vector3.Zero, Color.Cyan,
                                        new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
                                        new Vector3((float)1, (float)1, (float)1),
                                        new Vector3((float)0.1, (float)0.1, (float)0.1),
@@ -135,7 +147,7 @@ namespace Projekt4
             _cameraManager.SetCamera("Constant");
         }
 
-        private LightingInfo _GetLightingInfo(IEnumerable<DrawableObject> lights)
+        private LightingInfo _GetLightingInfo()
         {
             return new LightingInfo(new Vector3[] { new Vector3(0, 0, 5) }, new Vector3[] { new Vector3(0, 0, 1) });
         }
@@ -249,6 +261,8 @@ namespace Projekt4
             {
                 drawableObject.Draw(_drawerManager.CurrentDrawer);
             }
+
+            _illumination.Draw(_drawerManager.CurrentDrawer);
 
             base.Draw(gameTime);
         }
