@@ -12,9 +12,9 @@ using Projekt4.DrawableObjects;
 
 namespace Projekt4.Drawers
 {
-    public class SmoothDrawer : Drawer
+    public class DefaultDrawer : Drawer
     {
-        public SmoothDrawer(DrawingKit drawingKit, Effect effect)
+        public DefaultDrawer(DrawingKit drawingKit, Effect effect)
             : base(drawingKit, effect)
         {
         }

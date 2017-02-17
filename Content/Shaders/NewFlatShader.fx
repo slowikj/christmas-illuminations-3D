@@ -9,15 +9,13 @@
 
 bool PhongIllumination = true;
 
-float3 SidePosition;
-
 float4x4 World;
 float4x4 View;
 float4x4 Projection;
 float3 ViewerPosition;
 float4x4 WorldInverseTranspose;
 
-#define LIGHTS_MAX 100
+#define LIGHTS_MAX 200
 
 int LightsNum;
 
@@ -32,34 +30,51 @@ float3 ks;
 float Shininess;
 
 
-struct ShaderData
+struct VertexShaderInput
 {
 	float4 Position : POSITION0;
 	float3 Normal : NORMAL0;
 	float3 Color : COLOR0;
 };
 
-ShaderData VertexShaderFunction(ShaderData input)
+struct VertexShaderOutput
 {
-	ShaderData output;
+	float4 Position : POSITION0;
+	float3 Normal : NORMAL0;
+	float3 Color : COLOR0;
+	float3 WorldPosition : POSITION1;
+};
+
+VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
+{
+	VertexShaderOutput output;
 	float4 a = mul(input.Position, World);
 	float4 b = mul(a, View);
+
 	output.Position = mul(b, Projection);
+	output.WorldPosition = a;
+	output.Normal = input.Normal;
+	output.Color = input.Color;
 
-	float3 worldPosition = mul(SidePosition, World);
+	return output;
+}
 
-	output.Normal = normalize(mul(input.Normal, WorldInverseTranspose));
+float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
+{
+	float3 normal = normalize(cross(ddy(input.WorldPosition), ddx(input.WorldPosition)));
+	
+	
+	float3 position = input.WorldPosition;
 
-	float3 c = AmbientColor * ka;
+	float3 res = AmbientColor * ka[0];
 	for (int i = 0; i < LightsNum; ++i)
 	{
-		float3 lightDirection = normalize(LightPosition[i] - worldPosition);
+		float3 lightDirection = normalize(LightPosition[i] - position);
 
-		float3 r = normalize(2 * dot(lightDirection, output.Normal) * output.Normal - lightDirection);
-		float3 v = -normalize(worldPosition - ViewerPosition);
+		float3 r = normalize(2 * dot(lightDirection, normal) * normal - lightDirection);
+		float3 v = -normalize(position - ViewerPosition);
 
-		float3 diffuse = (dot(lightDirection, output.Normal) * input.Color);
-
+		float3 diffuse = (dot(lightDirection, normal) * input.Color);
 
 		float3 specularDotProduct;
 		if (PhongIllumination)
@@ -74,20 +89,12 @@ ShaderData VertexShaderFunction(ShaderData input)
 		float3 specular = (max(pow(specularDotProduct, Shininess), 0)) * LightColor[i];
 
 
-		c += (diffuse + specular);
+		res += (diffuse * kd[0] + specular * ks[0]);
 	}
 
-	c = saturate(c);
-
-	output.Color = c;
-
-	return output;
+	return float4(saturate(res), 1);
 }
 
-float4 PixelShaderFunction(ShaderData input) : COLOR0
-{
-	return float4(input.Color,1);
-}
 
 technique Technique1
 {

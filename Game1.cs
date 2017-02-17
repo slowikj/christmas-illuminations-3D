@@ -23,8 +23,9 @@ namespace Projekt4
         SpriteBatch spriteBatch;
 
         private Model[] _model;
+        private Model _treeModel;
         private List<IDrawable> _drawableObjects;
-        DrawableObject _moveableObject;
+        DrawableObject _moveableObject, _tree;
 
         private LightingInfo _lightingInfo;
         private DrawingKit _drawingKit;
@@ -32,15 +33,15 @@ namespace Projekt4
         private CameraManager _cameraManager;
         private DrawerManager _drawerManager;
 
-        private Illumination _illumination;
+        private Illumination _illumination, _illumination2;
         
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            //graphics.IsFullScreen = true;
-            //graphics.ApplyChanges();
+            graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -71,8 +72,18 @@ namespace Projekt4
             _moveableObject = _drawableObjects[0] as DrawableObject;
 
             _PrepareCameraManager();
+            
+            PatternGenerator patternGenerator = new PatternGenerator(x => x, x => (float)(Math.Sin(x)), 0, 10);
+            _illumination = new Illumination(_model[2], patternGenerator.GetPoints(0, 5, 100),
+                Color.Magenta, new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 20));
 
-            _lightingInfo = _GetLightingInfo();
+            _illumination2 = new Illumination(_model[3], patternGenerator.GetPoints(-5, -3, 100),
+                Color.Blue, new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 20));
+
+            _lightingInfo = new LightingInfo(new Vector3[] { Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ },
+                new Vector3[] { Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ });
+
+            //_lightingInfo = _GetLightingInfo();
             _drawingKit = new DrawingKit(
                 _cameraManager.ViewMatrix,
                 DrawingKit.GetDefaultProjectionMatrix(this.GraphicsDevice),
@@ -82,11 +93,8 @@ namespace Projekt4
 
             _LoadDrawers();
 
-            PatternGenerator patternGenerator = new PatternGenerator(x => x, x => (float)Math.Sin(x), 0, (float)(2 * Math.PI));
-            _illumination = new Illumination(_model[2], patternGenerator.GetPoints(0, 5, 25),
-                Color.Magenta, new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 20));
-
-            _lightingInfo = _illumination.Lighting;
+            _tree = new DrawableObject(new Model[] { _treeModel }, new Vector3(-2, 0, 0 ), Color.Green,
+                new ReflectanceFactors(Vector3.Zero, new Vector3((float)0.7, 0, 0), new Vector3((float)0.4, 0, 0), 1000));
 
             // TODO: use this.Content to load your game content here
         }
@@ -96,8 +104,11 @@ namespace Projekt4
             _model = new Model[]
             {
                 Content.Load<Model>("Models/cats/kitty0"), Content.Load<Model>("Models/cats/kitty1"),
-                Content.Load<Model>("Models/littleBall")
+                Content.Load<Model>("Models/tinyBall"),
+                Content.Load<Model>("Models/smallCone")
             };
+
+            _treeModel = Content.Load<Model>("Models/lowpolytree");
         }
 
         private void _LoadDrawers()
@@ -105,13 +116,16 @@ namespace Projekt4
             _drawerManager = new DrawerManager();
 
             _drawerManager.AddDrawer("Phong",
-                new SmoothDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/PhongShader")));
+                new DefaultDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/PhongShader")));
 
             _drawerManager.AddDrawer("Goraud",
-                new SmoothDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/GoraudShader")));
+                new DefaultDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/GoraudShader")));
 
-            _drawerManager.AddDrawer("Flat",
-                new FlatDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/FlatShader")));
+            _drawerManager.AddDrawer("OldFlat",
+                new FlatDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/OldFlatShader")));
+
+            _drawerManager.AddDrawer("NewFlat",
+                new DefaultDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/NewFlatShader")));
 
             _drawerManager.SetDrawer("Phong");
         }
@@ -120,7 +134,7 @@ namespace Projekt4
         {
             List<IDrawable> res = new List<IDrawable>();
 
-            res.Add(new DrawableObject(_model.Skip(2).ToArray(), Vector3.Zero, Color.Cyan,
+            res.Add(new DrawableObject(_model.Take(2).ToArray(), Vector3.Zero, Color.Cyan,
                                        new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
                                        new Vector3((float)1, (float)1, (float)1),
                                        new Vector3((float)0.1, (float)0.1, (float)0.1),
@@ -149,7 +163,7 @@ namespace Projekt4
 
         private LightingInfo _GetLightingInfo()
         {
-            return new LightingInfo(new Vector3[] { new Vector3(0, 0, 5) }, new Vector3[] { new Vector3(0, 0, 1) });
+            return new LightingInfo(new Vector3[] { new Vector3(0, 0, 5) }, new Vector3[] { new Vector3(1, 1, 1) });
         }
 
         /// <summary>
@@ -214,7 +228,8 @@ namespace Projekt4
                 {
                     case Keys.P: _drawerManager.SetDrawer("Phong"); break;
                     case Keys.G: _drawerManager.SetDrawer("Goraud"); break;
-                    case Keys.F: _drawerManager.SetDrawer("Flat"); break;
+                    case Keys.F: _drawerManager.SetDrawer("NewFlat"); break;
+                    case Keys.O: _drawerManager.SetDrawer("OldFlat"); break;
                 }
             }
         }
@@ -263,6 +278,8 @@ namespace Projekt4
             }
 
             _illumination.Draw(_drawerManager.CurrentDrawer);
+            _illumination2.Draw(_drawerManager.CurrentDrawer);
+            _tree.Draw(_drawerManager.CurrentDrawer);
 
             base.Draw(gameTime);
         }

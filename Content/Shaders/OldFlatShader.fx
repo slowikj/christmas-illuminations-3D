@@ -9,6 +9,8 @@
 
 bool PhongIllumination = true;
 
+float3 SidePosition;
+
 float4x4 World;
 float4x4 View;
 float4x4 Projection;
@@ -44,7 +46,7 @@ ShaderData VertexShaderFunction(ShaderData input)
 	float4 b = mul(a, View);
 	output.Position = mul(b, Projection);
 
-	float3 worldPosition = a;
+	float3 worldPosition = mul(SidePosition, World);
 
 	output.Normal = normalize(mul(input.Normal, WorldInverseTranspose));
 
@@ -70,7 +72,7 @@ ShaderData VertexShaderFunction(ShaderData input)
 		}
 
 		float3 specular = (max(pow(specularDotProduct, Shininess), 0)) * LightColor[i];
-		
+
 
 		c += (diffuse + specular);
 	}

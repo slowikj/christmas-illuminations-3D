@@ -16,12 +16,19 @@ namespace Projekt4
     public class Illumination : IDrawable
     {
         private List<DrawableObject> _lamps;
-        public LightingInfo Lighting { get; private set; }
+        public IEnumerable<Vector3> LightPositions
+        {
+            get { return _lamps.Select(lamp => lamp.Position); }
+        }
+
+        public IEnumerable<Vector3> LightColors
+        {
+            get { return _lamps.Select(lamp => lamp.Color.ToVector3()); }
+        }
 
         public Illumination(Model model, IEnumerable<Vector3> positions, Color color, ReflectanceFactors reflectanceFactors)
         {
             _lamps = _GetLamps(model, positions, color, reflectanceFactors);
-            this.Lighting = _GetLightingInfo(positions, color);
         }
         
         public void Draw(Drawer drawer)
@@ -39,10 +46,6 @@ namespace Projekt4
                 new DrawableObject(new Model[] { model }, position, color, reflectanceFactors))
                             .ToList();
         }
-
-        private LightingInfo _GetLightingInfo(IEnumerable<Vector3> positions, Color color)
-        {
-            return new LightingInfo(positions.ToArray(), positions.Select(p => color.ToVector3()).ToArray());
-        }
+        
     }
 }

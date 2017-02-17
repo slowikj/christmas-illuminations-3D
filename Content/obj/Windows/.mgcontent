@@ -10,7 +10,10 @@
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/PhongShader.fx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/cats/kitty0.fbx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/cats/kitty1.fbx</File>
-    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/FlatShader.fx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/littleBall.fbx</File>
+    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/OldFlatShader.fx</File>
+    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/NewFlatShader.fx</File>
+    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/tinyBall.fbx</File>
+    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/smallCone.fbx</File>
   </SourceFiles>
 </SourceFileCollection>

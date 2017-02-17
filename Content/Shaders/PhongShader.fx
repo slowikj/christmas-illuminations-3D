@@ -15,7 +15,7 @@ float4x4 Projection;
 float3 ViewerPosition;
 float4x4 WorldInverseTranspose;
 
-#define LIGHTS_MAX 100
+#define LIGHTS_MAX 200
 
 int LightsNum;
 
@@ -65,7 +65,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 
 	float3 position = input.WorldPosition;
 
-	float3 res = AmbientColor * ka;
+	float3 res = AmbientColor * ka[0];
 	for (int i = 0; i < LightsNum; ++i)
 	{
 		float3 lightDirection = normalize(LightPosition[i] - position);
@@ -88,7 +88,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 		float3 specular = (max(pow(specularDotProduct, Shininess), 0)) * LightColor[i];
 
 
-		res += (diffuse + specular);
+		res += (diffuse * kd[0] + specular * ks[0]);
 	}
 
 	return float4(saturate(res), 1);
