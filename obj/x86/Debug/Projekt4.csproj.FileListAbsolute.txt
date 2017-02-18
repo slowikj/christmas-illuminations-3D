@@ -33,3 +33,4 @@ C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Shaders\OldFlatShader.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\tinyBall.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\smallCone.xnb
+C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\streetlamp.xnb

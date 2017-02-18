@@ -51,6 +51,12 @@ ShaderData VertexShaderFunction(ShaderData input)
 	float3 c = AmbientColor * ka;
 	for (int i = 0; i < LightsNum; ++i)
 	{
+		float sqrDist = 0;
+		for (int j = 0; j < 3; ++j)
+		{
+			sqrDist += (worldPosition[j] - LightPosition[i][j]) * (worldPosition[j] - LightPosition[i][j]);
+		}
+
 		float3 lightDirection = normalize(LightPosition[i] - worldPosition);
 
 		float3 r = normalize(2 * dot(lightDirection, output.Normal) * output.Normal - lightDirection);
@@ -72,7 +78,7 @@ ShaderData VertexShaderFunction(ShaderData input)
 		float3 specular = (max(pow(specularDotProduct, Shininess), 0)) * LightColor[i];
 		
 
-		c += (diffuse + specular);
+		c += (diffuse + specular) / sqrDist * 5;
 	}
 
 	c = saturate(c);

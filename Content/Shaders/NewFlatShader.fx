@@ -69,6 +69,12 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	float3 res = AmbientColor * ka[0];
 	for (int i = 0; i < LightsNum; ++i)
 	{
+		float sqrDist = 0;
+		for (int j = 0; j < 3; ++j)
+		{
+			sqrDist += (position[j] - LightPosition[i][j]) * (position[j] - LightPosition[i][j]);
+		}
+
 		float3 lightDirection = normalize(LightPosition[i] - position);
 
 		float3 r = normalize(2 * dot(lightDirection, normal) * normal - lightDirection);
@@ -89,7 +95,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 		float3 specular = (max(pow(specularDotProduct, Shininess), 0)) * LightColor[i];
 
 
-		res += (diffuse * kd[0] + specular * ks[0]);
+		res += (diffuse * kd[0] + specular * ks[0]) / sqrDist;
 	}
 
 	return float4(saturate(res), 1);

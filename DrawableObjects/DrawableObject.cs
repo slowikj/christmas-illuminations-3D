@@ -42,7 +42,8 @@ namespace Projekt4.DrawableObjects
 
             this.Color = color;
             this.RotationInfo = rotationInfo ?? new RotationInfo(0, 0, 0);
-            this.ReflectanceFactors = reflectanceFactors ?? new ReflectanceFactors(Vector3.One, Vector3.One, Vector3.One, 200);
+            this.ReflectanceFactors = reflectanceFactors ?? new ReflectanceFactors();
+                ;
             this.Position = position;
 
             _currentFrame = 0;

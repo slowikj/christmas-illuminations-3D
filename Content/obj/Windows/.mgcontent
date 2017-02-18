@@ -4,7 +4,6 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/../../../../../ball3.fbx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/lowpolytree.fbx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/GoraudShader.fx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/PhongShader.fx</File>
@@ -14,6 +13,7 @@
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/OldFlatShader.fx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/NewFlatShader.fx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/tinyBall.fbx</File>
+    <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/streetLamp.fbx</File>
     <File>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/smallCone.fbx</File>
   </SourceFiles>
 </SourceFileCollection>

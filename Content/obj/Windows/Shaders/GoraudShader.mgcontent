@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Shaders/GoraudShader.fx</SourceFile>
-  <SourceTime>2017-02-17T12:04:02.3542899+01:00</SourceTime>
+  <SourceTime>2017-02-18T15:49:03.0206269+01:00</SourceTime>
   <DestFile>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/bin/Windows/Shaders/GoraudShader.xnb</DestFile>
-  <DestTime>2017-02-17T12:04:04.4326334+01:00</DestTime>
+  <DestTime>2017-02-18T15:49:03.7549847+01:00</DestTime>
   <Importer>EffectImporter</Importer>
   <ImporterTime>2016-03-30T08:36:08+02:00</ImporterTime>
   <Processor>EffectProcessor</Processor>

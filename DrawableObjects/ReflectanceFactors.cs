@@ -22,5 +22,13 @@ namespace Projekt4.DrawableObjects
             this.Specular = specular;
             this.Shininess = shininess;
         }
+
+        public ReflectanceFactors()
+            : this(new Vector3((float)0.01, (float)0.01, (float)0.01),
+                   new Vector3((float)0.9, (float)0.9, (float)0.9),
+                   new Vector3((float)0.1, (float)0.1, (float)0.1),
+                   200)
+        {
+        }
     }
 }

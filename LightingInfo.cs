@@ -12,15 +12,32 @@ namespace Projekt4
 {
     public class LightingInfo
     {
-        public Vector3[] Positions { get; private set; }
-        public Vector3[] Colors { get; private set; }
-
-        public int Count { get { return Positions.Length; } }
-
-        public LightingInfo(Vector3[] positions, Vector3[] colors)
+        private List<Vector3> _positions, _colors;
+        public Vector3[] Positions
         {
-            this.Positions = positions;
-            this.Colors = colors;
+            get { return _positions.ToArray(); }
+        }
+
+        public Vector3[] Colors
+        {
+            get { return _colors.ToArray(); }
+        }
+
+        public int Count
+        {
+            get { return _positions.Count; }
+        }
+
+        public LightingInfo()
+        {
+            _positions = new List<Vector3>();
+            _colors = new List<Vector3>();
+        }
+
+        public void AddLight(Vector3 position, Vector3 color)
+        {
+            _positions.Add(position);
+            _colors.Add(color);
         }
     }
 }

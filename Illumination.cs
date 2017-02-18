@@ -26,9 +26,13 @@ namespace Projekt4
             get { return _lamps.Select(lamp => lamp.Color.ToVector3()); }
         }
 
-        public Illumination(Model model, IEnumerable<Vector3> positions, Color color, ReflectanceFactors reflectanceFactors)
+        public Illumination(Model model, IEnumerable<Vector3> positions, Color color, ReflectanceFactors reflectanceFactors = null)
         {
-            _lamps = _GetLamps(model, positions, color, reflectanceFactors);
+            _lamps = _GetLamps(model, positions, color,
+                reflectanceFactors ?? new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
+                                                             new Vector3((float)0.5, (float)0.5, (float)0.5),
+                                                             new Vector3((float)0.5, (float)0.5, (float)0.5),
+                                                             2));
         }
         
         public void Draw(Drawer drawer)

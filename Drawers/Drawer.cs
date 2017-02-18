@@ -23,6 +23,16 @@ namespace Projekt4.Drawers
             _effect = effect;
         }
 
+        public void SetView (Vector3 viewerPosition, Matrix viewMatrix)
+        {
+            _drawingKit.ViewerPosition = viewerPosition;
+            _drawingKit.ViewMatrix = viewMatrix;
+        }
+
+        public void SetLightingInfo(LightingInfo lightingInfo)
+        {
+            _drawingKit.LightingInfo = lightingInfo;
+        }
 
         public void SetPhongIllumination()
         {

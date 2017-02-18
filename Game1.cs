@@ -22,18 +22,12 @@ namespace Projekt4
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private Model[] _model;
-        private Model _treeModel;
-        private List<IDrawable> _drawableObjects;
-        DrawableObject _moveableObject, _tree;
+        Dictionary<String, Model[]> _models;
 
-        private LightingInfo _lightingInfo;
-        private DrawingKit _drawingKit;
-       
-        private CameraManager _cameraManager;
-        private DrawerManager _drawerManager;
-
-        private Illumination _illumination, _illumination2;
+        Scene _scene;
+        DrawerManager _drawerManager;
+        DrawingKit _drawingKit;
+        
         
         public Game1()
         {
@@ -66,105 +60,144 @@ namespace Projekt4
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _LoadModels();
-
-            _drawableObjects = _GetDrawableObjects();
-            _moveableObject = _drawableObjects[0] as DrawableObject;
-
-            _PrepareCameraManager();
-            
-            PatternGenerator patternGenerator = new PatternGenerator(x => x, x => (float)(Math.Sin(x)), 0, 10);
-            _illumination = new Illumination(_model[2], patternGenerator.GetPoints(0, 5, 100),
-                Color.Magenta, new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 20));
-
-            _illumination2 = new Illumination(_model[3], patternGenerator.GetPoints(-5, -3, 100),
-                Color.Blue, new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 20));
-
-            _lightingInfo = new LightingInfo(new Vector3[] { Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ },
-                new Vector3[] { Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ });
-
-            //_lightingInfo = _GetLightingInfo();
             _drawingKit = new DrawingKit(
-                _cameraManager.ViewMatrix,
+                Matrix.Identity,
                 DrawingKit.GetDefaultProjectionMatrix(this.GraphicsDevice),
-                _cameraManager.ViewerPosition,
+                Vector3.Zero,
                 this.GraphicsDevice,
-                _lightingInfo);
+                new LightingInfo());
 
-            _LoadDrawers();
+            _drawerManager = _GetDrawerManager(_drawingKit);
 
-            _tree = new DrawableObject(new Model[] { _treeModel }, new Vector3(-2, 0, 0 ), Color.Green,
-                new ReflectanceFactors(Vector3.Zero, new Vector3((float)0.7, 0, 0), new Vector3((float)0.4, 0, 0), 1000));
+            _models = _GetModels();
+
+            _scene = _GetScene();
 
             // TODO: use this.Content to load your game content here
         }
-        
-        private void _LoadModels()
+   
+        private DrawerManager _GetDrawerManager(DrawingKit drawingKit)
         {
-            _model = new Model[]
-            {
-                Content.Load<Model>("Models/cats/kitty0"), Content.Load<Model>("Models/cats/kitty1"),
-                Content.Load<Model>("Models/tinyBall"),
-                Content.Load<Model>("Models/smallCone")
-            };
+            DrawerManager res = new DrawerManager();
 
-            _treeModel = Content.Load<Model>("Models/lowpolytree");
-        }
+            res.AddDrawer("Phong",
+                new DefaultDrawer(drawingKit, this.Content.Load<Effect>("Shaders/PhongShader")));
 
-        private void _LoadDrawers()
-        {
-            _drawerManager = new DrawerManager();
+            res.AddDrawer("Goraud",
+                new DefaultDrawer(drawingKit, this.Content.Load<Effect>("Shaders/GoraudShader")));
 
-            _drawerManager.AddDrawer("Phong",
-                new DefaultDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/PhongShader")));
+            res.AddDrawer("OldFlat",
+                new FlatDrawer(drawingKit, this.Content.Load<Effect>("Shaders/OldFlatShader")));
 
-            _drawerManager.AddDrawer("Goraud",
-                new DefaultDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/GoraudShader")));
+            res.AddDrawer("NewFlat",
+                new DefaultDrawer(drawingKit, this.Content.Load<Effect>("Shaders/NewFlatShader")));
 
-            _drawerManager.AddDrawer("OldFlat",
-                new FlatDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/OldFlatShader")));
-
-            _drawerManager.AddDrawer("NewFlat",
-                new DefaultDrawer(_drawingKit, this.Content.Load<Effect>("Shaders/NewFlatShader")));
-
-            _drawerManager.SetDrawer("Phong");
-        }
-
-        private List<IDrawable> _GetDrawableObjects()
-        {
-            List<IDrawable> res = new List<IDrawable>();
-
-            res.Add(new DrawableObject(_model.Take(2).ToArray(), Vector3.Zero, Color.Cyan,
-                                       new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
-                                       new Vector3((float)1, (float)1, (float)1),
-                                       new Vector3((float)0.1, (float)0.1, (float)0.1),
-                                       500),
-                                       new RotationInfo(0, 0, 0)));
-            
+            res.SetDrawer("Phong");
 
             return res;
         }
 
-        private void _PrepareCameraManager()
+        private Dictionary<String, Model[]> _GetModels()
         {
-            _cameraManager = new CameraManager();
+            Dictionary<String, Model[]> res = new Dictionary<string, Model[]>();
 
-            _cameraManager.AddCamera("Constant",
-                new ConstantCamera(new Vector3(0,0,1), Vector3.Zero));
+            res.Add("kitty", new Model[]
+            {
+                _GetModel("Models/cats/kitty0"),
+                _GetModel("Models/cats/kitty1")
+            });
 
-            _cameraManager.AddCamera("StationaryObjectCamera",
-                new StationaryObjectCamera(new Vector3(0, 0, 1), _moveableObject));
+            res.Add("cone", new Model[] { _GetModel("Models/smallCone") });
+            res.Add("christmasTree", new Model[] { _GetModel("Models/lowpolytree") });
+            res.Add("ball", new Model[] { _GetModel("Models/tinyBall") });
+            res.Add("streetLamp", new Model[] { _GetModel("Models/streetLamp") });
 
-            _cameraManager.AddCamera("MoveableObjectCamera",
-                new MoveableObjectCamera(_moveableObject));
-
-            _cameraManager.SetCamera("Constant");
+            return res;
         }
 
-        private LightingInfo _GetLightingInfo()
+        private Model _GetModel(String path)
         {
-            return new LightingInfo(new Vector3[] { new Vector3(0, 0, 5) }, new Vector3[] { new Vector3(1, 1, 1) });
+            return this.Content.Load<Model>(path);
         }
+
+        private Scene _GetScene()
+        {
+            Scene res = new Scene();
+
+            DrawableObject moveableObject = new DrawableObject(_models["kitty"], Vector3.Zero, Color.Cyan,
+                new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
+                                       new Vector3((float)0.01, (float)0.1, (float)0.1),
+                                       new Vector3((float)0.001, (float)0.01, (float)0.01),
+                                       1000));
+
+            res.AddObject(moveableObject);
+
+            _PrepareCameras(res, moveableObject);
+
+            _AddTreesWithLamps(res, -5, 1, Color.Magenta, _models["ball"][0]);
+            _AddTreesWithLamps(res, 5, -1, Color.Yellow, _models["cone"][0]);
+
+            PatternGenerator sinOnCurve = new PatternGenerator(a => a, a => (float)Math.Sin(a), a => 10 * a * (a - 3));
+            res.AddIllumination(new Illumination(_models["ball"][0],
+                sinOnCurve.GetPoints(200, -3, 3, 0, 10 * (float)Math.PI, 0, 3), Color.Red,
+                new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 1)));
+            
+            return res;
+        }
+        
+        private void _PrepareCameras(Scene scene, DrawableObject moveableObject)
+        {
+            foreach (KeyValuePair<String, Camera> cameraInfo in _GetCameras(moveableObject))
+            {
+                scene.AddCamera(cameraInfo.Key, cameraInfo.Value);
+            }
+
+            scene.SetCamera("Constant");
+        }
+
+        private Dictionary<String, Camera> _GetCameras(DrawableObject moveableObject)
+        {
+            Vector3 CONSTANT_CAMERA_POSITION = new Vector3(2, 0, -8);
+
+            Dictionary<String, Camera> res = new Dictionary<string, Camera>();
+
+            res.Add("Constant", new ConstantCamera(CONSTANT_CAMERA_POSITION, Vector3.Zero));
+
+            res.Add("MoveableObjectCamera", new MoveableObjectCamera(moveableObject));
+
+            res.Add("StationaryObjectCamera", new StationaryObjectCamera(CONSTANT_CAMERA_POSITION, moveableObject));
+
+            return res;
+        }
+
+        private void _AddTreesWithLamps(Scene scene, int xVal, int incX, Color lightColor, Model lamp)
+        {
+            PatternGenerator patternGenerator = new PatternGenerator(a => xVal + incX, a => (float)Math.Sin(a), a => -a);
+
+            scene.AddIllumination(new Illumination(lamp,
+                patternGenerator.GetPoints(100, 0, 1, 0, (float)Math.PI * 8, -10, 0), lightColor,
+                new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 1)));
+
+            
+            foreach (IDrawable tree in _GetForest(xVal))
+            {
+                scene.AddObject(tree);
+            }
+        }
+
+        private IEnumerable<IDrawable> _GetForest(int xVal)
+        {
+            IEnumerable<IDrawable> trees = new PatternGenerator(x => xVal, x => 1, z => -z)
+                .GetPoints(5, 0, 1, 0, 1, -10, 0)
+                .Select(point => new DrawableObject(_models["christmasTree"], point, Color.Green,
+                    new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
+                   new Vector3((float)0.5, (float)0.5, (float)0.5),
+                   new Vector3((float)0.1, (float)0.1, (float)0.1),
+                   2000000)));
+
+            return trees;
+        }
+
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -213,9 +246,9 @@ namespace Projekt4
             {
                 switch (key)
                 {
-                    case Keys.C: _cameraManager.SetCamera("Constant"); break;
-                    case Keys.M: _cameraManager.SetCamera("MoveableObjectCamera"); break;
-                    case Keys.S: _cameraManager.SetCamera("StationaryObjectCamera"); break;
+                    case Keys.C: _scene.SetCamera("Constant"); break;
+                    case Keys.M: _scene.SetCamera("MoveableObjectCamera"); break;
+                    case Keys.S: _scene.SetCamera("StationaryObjectCamera"); break;
                 }
             }
         }
@@ -251,10 +284,10 @@ namespace Projekt4
             {
                 switch (key)
                 {
-                    case Keys.Left: _moveableObject.RotateAntiClockwise(); break;
-                    case Keys.Right: _moveableObject.RotateClockwise(); break;
-                    case Keys.Up: _moveableObject.MoveForward(); break;
-                    case Keys.Down: _moveableObject.MoveBackward(); break;
+                    case Keys.Left: _scene.MoveCurrentObject(Move.RotateAnticlockwise); break;
+                    case Keys.Right: _scene.MoveCurrentObject(Move.RotateClockwise); break;
+                    case Keys.Up: _scene.MoveCurrentObject(Move.Forward); break;
+                    case Keys.Down: _scene.MoveCurrentObject(Move.Backward); break;
                 }
             }
         }
@@ -269,17 +302,7 @@ namespace Projekt4
 
             // TODO: Add your drawing code here
 
-            _drawingKit.ViewMatrix = _cameraManager.ViewMatrix;
-            _drawingKit.ViewerPosition = _cameraManager.ViewerPosition;
-
-            foreach(DrawableObject drawableObject in _drawableObjects)
-            {
-                drawableObject.Draw(_drawerManager.CurrentDrawer);
-            }
-
-            _illumination.Draw(_drawerManager.CurrentDrawer);
-            _illumination2.Draw(_drawerManager.CurrentDrawer);
-            _tree.Draw(_drawerManager.CurrentDrawer);
+            _scene.Draw(_drawerManager.CurrentDrawer);
 
             base.Draw(gameTime);
         }
