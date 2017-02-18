@@ -128,7 +128,7 @@ namespace Projekt4
                 new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
                                        new Vector3((float)0.01, (float)0.1, (float)0.1),
                                        new Vector3((float)0.001, (float)0.01, (float)0.01),
-                                       1000));
+                                       500));
 
             res.AddObject(moveableObject);
 
@@ -139,7 +139,7 @@ namespace Projekt4
 
             PatternGenerator sinOnCurve = new PatternGenerator(a => a, a => (float)Math.Sin(a), a => 10 * a * (a - 3));
             res.AddIllumination(new Illumination(_models["ball"][0],
-                sinOnCurve.GetPoints(200, -3, 3, 0, 10 * (float)Math.PI, 0, 3), Color.Red,
+                sinOnCurve.GetPoints(150, -3, 3, 0, 10 * (float)Math.PI, 0, 3), Color.Red,
                 new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 1)));
             
             return res;
@@ -157,7 +157,7 @@ namespace Projekt4
 
         private Dictionary<String, Camera> _GetCameras(DrawableObject moveableObject)
         {
-            Vector3 CONSTANT_CAMERA_POSITION = new Vector3(2, 0, -8);
+            Vector3 CONSTANT_CAMERA_POSITION = new Vector3(0, 0, -20);
 
             Dictionary<String, Camera> res = new Dictionary<string, Camera>();
 
