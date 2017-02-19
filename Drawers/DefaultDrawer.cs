@@ -19,7 +19,7 @@ namespace Projekt4.Drawers
         {
         }
 
-        public override void Draw(DrawableObject drawableObject)
+        public override void Draw(SceneActor drawableObject)
         {
             _SetEffectParameters(drawableObject);
 

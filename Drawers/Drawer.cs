@@ -44,7 +44,7 @@ namespace Projekt4.Drawers
             _effect.Parameters["PhongIllumination"].SetValue(false);
         }
 
-        public abstract void Draw(DrawableObject drawableObject);
+        public abstract void Draw(SceneActor drawableObject);
 
         protected void _DrawTriangles(VertexPositionNormalColor[] triangleList)
         {
@@ -56,7 +56,7 @@ namespace Projekt4.Drawers
             }
         }
         
-        protected void _SetEffectParameters(DrawableObject drawableObject)
+        protected void _SetEffectParameters(SceneActor drawableObject)
         {
             _effect.Parameters["View"].SetValue(_drawingKit.ViewMatrix);
             _effect.Parameters["ViewerPosition"].SetValue(_drawingKit.ViewerPosition);

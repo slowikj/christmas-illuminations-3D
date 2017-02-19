@@ -15,7 +15,7 @@ namespace Projekt4
 {
     public class Illumination : IDrawable
     {
-        private List<DrawableObject> _lamps;
+        private List<SceneActor> _lamps;
         public IEnumerable<Vector3> LightPositions
         {
             get { return _lamps.Select(lamp => lamp.Position); }
@@ -37,17 +37,17 @@ namespace Projekt4
         
         public void Draw(Drawer drawer)
         {
-            foreach (DrawableObject lamp in _lamps)
+            foreach (SceneActor lamp in _lamps)
             {
                 lamp.Draw(drawer);
             }
         }
 
-        private List<DrawableObject> _GetLamps(Model model, IEnumerable<Vector3> positions, Color color, ReflectanceFactors reflectanceFactors)
+        private List<SceneActor> _GetLamps(Model model, IEnumerable<Vector3> positions, Color color, ReflectanceFactors reflectanceFactors)
         {
 
             return positions.Select(position =>
-                new DrawableObject(new Model[] { model }, position, color, reflectanceFactors))
+                new SceneActor(new Model[] { model }, position, color, reflectanceFactors))
                             .ToList();
         }
         

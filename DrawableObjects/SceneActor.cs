@@ -13,7 +13,7 @@ using Projekt4.Cameras;
 
 namespace Projekt4.DrawableObjects
 {
-    public class DrawableObject : IDrawable
+    public class SceneActor : IDrawable
     {
         public event EventHandler<ObjectChangedEventArgs> ObjectChanged;
         private MeshesInfo[] _meshesInfo;
@@ -35,7 +35,7 @@ namespace Projekt4.DrawableObjects
 
         public Color Color { get; private set; }
         
-        public DrawableObject(Model[] models, Vector3 position, Color color, ReflectanceFactors reflectanceFactors = null,
+        public SceneActor(Model[] models, Vector3 position, Color color, ReflectanceFactors reflectanceFactors = null,
             RotationInfo rotationInfo = null)
         {
             _meshesInfo = models.Select(model => new MeshesInfo(model, color)).ToArray();

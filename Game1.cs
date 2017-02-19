@@ -34,8 +34,8 @@ namespace Projekt4
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.IsFullScreen = true;
-            graphics.ApplyChanges();
+            //graphics.IsFullScreen = true;
+            //graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -101,17 +101,12 @@ namespace Projekt4
         {
             Dictionary<String, Model[]> res = new Dictionary<string, Model[]>();
 
-            res.Add("kitty", new Model[]
-            {
-                _GetModel("Models/cats/kitty0"),
-                _GetModel("Models/cats/kitty1")
-            });
-
+            res.Add("kitty", Enumerable.Range(0, 15).Select(i => _GetModel("Models/cats/kitty" + i.ToString())).ToArray());
+            
             res.Add("cone", new Model[] { _GetModel("Models/smallCone") });
             res.Add("christmasTree", new Model[] { _GetModel("Models/lowpolytree") });
             res.Add("ball", new Model[] { _GetModel("Models/tinyBall") });
-            res.Add("streetLamp", new Model[] { _GetModel("Models/streetLamp") });
-
+        
             return res;
         }
 
@@ -124,7 +119,7 @@ namespace Projekt4
         {
             Scene res = new Scene();
 
-            DrawableObject moveableObject = new DrawableObject(_models["kitty"], Vector3.Zero, Color.Cyan,
+            SceneActor moveableObject = new SceneActor(_models["kitty"], Vector3.Zero, Color.Cyan,
                 new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
                                        new Vector3((float)0.01, (float)0.1, (float)0.1),
                                        new Vector3((float)0.001, (float)0.01, (float)0.01),
@@ -145,7 +140,7 @@ namespace Projekt4
             return res;
         }
         
-        private void _PrepareCameras(Scene scene, DrawableObject moveableObject)
+        private void _PrepareCameras(Scene scene, SceneActor moveableObject)
         {
             foreach (KeyValuePair<String, Camera> cameraInfo in _GetCameras(moveableObject))
             {
@@ -155,7 +150,7 @@ namespace Projekt4
             scene.SetCamera("Constant");
         }
 
-        private Dictionary<String, Camera> _GetCameras(DrawableObject moveableObject)
+        private Dictionary<String, Camera> _GetCameras(SceneActor moveableObject)
         {
             Vector3 CONSTANT_CAMERA_POSITION = new Vector3(0, 0, -20);
 
@@ -189,7 +184,7 @@ namespace Projekt4
         {
             IEnumerable<IDrawable> trees = new PatternGenerator(x => xVal, x => 1, z => -z)
                 .GetPoints(5, 0, 1, 0, 1, -10, 0)
-                .Select(point => new DrawableObject(_models["christmasTree"], point, Color.Green,
+                .Select(point => new SceneActor(_models["christmasTree"], point, Color.Green,
                     new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
                    new Vector3((float)0.5, (float)0.5, (float)0.5),
                    new Vector3((float)0.1, (float)0.1, (float)0.1),

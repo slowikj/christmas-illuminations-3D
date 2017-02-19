@@ -14,7 +14,7 @@ namespace Projekt4.Cameras
 {
     public class StationaryObjectCamera : Camera
     {
-        public StationaryObjectCamera(Vector3 position, DrawableObject connectedObject)
+        public StationaryObjectCamera(Vector3 position, SceneActor connectedObject)
             : base(position, connectedObject.Position)
         {
             connectedObject.ObjectChanged += this.ObjectChangedHandler;

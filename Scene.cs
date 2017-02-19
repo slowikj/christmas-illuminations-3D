@@ -21,10 +21,10 @@ namespace Projekt4
         private List<IDrawable> _drawableObjects;
         private LightingInfo _lightingInfo;
 
-        private DrawableObject _currentObject;
+        private SceneActor _currentObject;
         private CameraManager _cameraManager;
 
-        public DrawableObject MovingObject
+        public SceneActor MovingObject
         {
             get { return _currentObject; }
         }
@@ -62,10 +62,10 @@ namespace Projekt4
         public void AddObject(Model[] models, Vector3 position, Color color,
             ReflectanceFactors reflectanceFactors = null, RotationInfo rotationInfo = null)
         {
-            this.AddObject(new DrawableObject(models, position, color, reflectanceFactors, rotationInfo));
+            this.AddObject(new SceneActor(models, position, color, reflectanceFactors, rotationInfo));
         }
 
-        public void AddObject(DrawableObject drawableObject)
+        public void AddObject(SceneActor drawableObject)
         {
             _drawableObjects.Add(drawableObject);
 

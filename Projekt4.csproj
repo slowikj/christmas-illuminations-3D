@@ -38,7 +38,6 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ArgumentsRanges.cs" />
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Cameras\CameraManager.cs" />
     <Compile Include="Cameras\ConstantCamera.cs" />
@@ -51,7 +50,7 @@
     <Compile Include="Drawers\FlatDrawer.cs" />
     <Compile Include="Drawers\DefaultDrawer.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="DrawableObjects\DrawableObject.cs" />
+    <Compile Include="DrawableObjects\SceneActor.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="Illumination.cs" />
     <Compile Include="LightingInfo.cs" />

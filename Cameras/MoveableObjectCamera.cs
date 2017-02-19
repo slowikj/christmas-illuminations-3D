@@ -9,7 +9,7 @@ namespace Projekt4.Cameras
 {
     public class MoveableObjectCamera : Camera
     {
-        public MoveableObjectCamera(DrawableObject drawableObject)
+        public MoveableObjectCamera(SceneActor drawableObject)
             : base(drawableObject.Position, drawableObject.Position + drawableObject.ViewVector)
         {
             drawableObject.ObjectChanged += this.ObjectChangedHandler;
