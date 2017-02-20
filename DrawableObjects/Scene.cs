@@ -12,7 +12,7 @@ using Projekt4.Cameras;
 using Projekt4.DrawableObjects;
 using Projekt4.Drawers;
 
-namespace Projekt4
+namespace Projekt4.DrawableObjects
 {
     public class Scene : IDrawable
     {
@@ -24,7 +24,7 @@ namespace Projekt4
         private SceneActor _currentObject;
         private CameraManager _cameraManager;
 
-        public SceneActor MovingObject
+        public SceneActor CurrentObject
         {
             get { return _currentObject; }
         }

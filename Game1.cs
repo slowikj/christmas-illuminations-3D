@@ -36,8 +36,8 @@ namespace Projekt4
 
             graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
 
-            //graphics.IsFullScreen = true;
-            //graphics.ApplyChanges();
+            graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Projekt4
             res.Add("cone", new Model[] { _GetModel("Models/smallCone") });
             res.Add("christmasTree", new Model[] { _GetModel("Models/lowpolytree") });
             res.Add("ball", new Model[] { _GetModel("Models/tinyBall") });
-            res.Add("plane", new Model[] { _GetModel("Models/ls") });
+            res.Add("sqrPlane", new Model[] { _GetModel("Models/sqrPlane") });
         
             return res;
         }
@@ -140,7 +140,7 @@ namespace Projekt4
                 sinOnCurve.GetPoints(150, -3, 3, 0, 10 * (float)Math.PI, 0, 3), Color.Red,
                 new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 1)));
 
-            foreach (SceneActor plane in _GetPlaneMesh(_models["plane"], Color.DarkGreen, new Vector3(-3, -(float)1, 0), 8, 4))
+            foreach (SceneActor plane in _GetPlaneMesh(_models["sqrPlane"], Color.DarkGreen, new Vector3(-3, -(float)1, 0), 8, 4))
             {
                 res.AddObject(plane);
             }

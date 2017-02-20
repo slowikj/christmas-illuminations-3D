@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Projekt4.DrawableObjects;
 using Projekt4.Drawers;
 
-namespace Projekt4
+namespace Projekt4.DrawableObjects
 {
     public class Illumination : IDrawable
     {

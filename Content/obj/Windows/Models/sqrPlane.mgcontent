@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/ls.fbx</SourceFile>
+  <SourceFile>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/Models/sqrPlane.fbx</SourceFile>
   <SourceTime>2017-02-20T12:10:15.658493+01:00</SourceTime>
-  <DestFile>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/bin/Windows/Models/ls.xnb</DestFile>
-  <DestTime>2017-02-20T12:10:56.2315419+01:00</DestTime>
+  <DestFile>C:/Users/slowik/Documents/studia/grafika/Projekt4/Projekt4/Content/bin/Windows/Models/sqrPlane.xnb</DestFile>
+  <DestTime>2017-02-20T12:33:33.5430587+01:00</DestTime>
   <Importer>FbxImporter</Importer>
   <ImporterTime>2016-03-30T08:36:08+02:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
