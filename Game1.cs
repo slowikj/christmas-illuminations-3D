@@ -34,6 +34,8 @@ namespace Projekt4
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
+            graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
+
             //graphics.IsFullScreen = true;
             //graphics.ApplyChanges();
         }
@@ -106,6 +108,7 @@ namespace Projekt4
             res.Add("cone", new Model[] { _GetModel("Models/smallCone") });
             res.Add("christmasTree", new Model[] { _GetModel("Models/lowpolytree") });
             res.Add("ball", new Model[] { _GetModel("Models/tinyBall") });
+            res.Add("plane", new Model[] { _GetModel("Models/ls") });
         
             return res;
         }
@@ -119,7 +122,7 @@ namespace Projekt4
         {
             Scene res = new Scene();
 
-            SceneActor moveableObject = new SceneActor(_models["kitty"], Vector3.Zero, Color.Cyan,
+            SceneActor moveableObject = new SceneActor(_models["kitty"], new Vector3(0, -(float)0.4, 0), Color.Cyan,
                 new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
                                        new Vector3((float)0.01, (float)0.1, (float)0.1),
                                        new Vector3((float)0.001, (float)0.01, (float)0.01),
@@ -136,6 +139,11 @@ namespace Projekt4
             res.AddIllumination(new Illumination(_models["ball"][0],
                 sinOnCurve.GetPoints(150, -3, 3, 0, 10 * (float)Math.PI, 0, 3), Color.Red,
                 new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 1)));
+
+            foreach (SceneActor plane in _GetPlaneMesh(_models["plane"], Color.DarkGreen, new Vector3(-3, -(float)1, 0), 8, 4))
+            {
+                res.AddObject(plane);
+            }
             
             return res;
         }
@@ -193,6 +201,31 @@ namespace Projekt4
             return trees;
         }
 
+        private IEnumerable<SceneActor> _GetPlaneMesh(Model[] planeModels, Color color, Vector3 startPos, int rows, int cols)
+        {
+            Func<Random, Vector3> getRandomVector = (rr => new Vector3((float)rr.NextDouble(), (float)rr.NextDouble(), (float)rr.NextDouble()));
+            Random random = new Random();
+            SceneActor tmpActor = new SceneActor(planeModels, Vector3.Zero, Color.Gray);
+
+            return _GetPositionsOfMesh(startPos, rows, cols, 2, 2)
+                .Select(position => new SceneActor(planeModels, position, color,
+                    new ReflectanceFactors(Vector3.Zero, getRandomVector(random), getRandomVector(random), random.Next(2, 200))));                        
+        }
+
+
+        private IEnumerable<Vector3> _GetPositionsOfMesh(Vector3 startPos, int rows, int cols, float width, float length)
+        {
+            List<Vector3> res = new List<Vector3>();
+            for(int r = 0; r < rows; ++r)
+            {
+                for(int c = 0; c < cols; ++c)
+                {
+                    res.Add(new Vector3(startPos.X + c * width, startPos.Y, startPos.Z + r * length));
+                }
+            }
+
+            return res;
+        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload

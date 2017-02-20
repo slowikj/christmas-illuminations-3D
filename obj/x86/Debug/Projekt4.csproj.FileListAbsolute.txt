@@ -46,3 +46,4 @@ C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\cats\kitty12.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\cats\kitty13.xnb
 C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\cats\kitty14.xnb
+C:\Users\slowik\Documents\studia\grafika\Projekt4\Projekt4\bin\Windows\x86\Debug\Content\Models\ls.xnb

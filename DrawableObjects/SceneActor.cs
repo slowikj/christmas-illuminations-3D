@@ -39,18 +39,22 @@ namespace Projekt4.DrawableObjects
             RotationInfo rotationInfo = null)
         {
             _meshesInfo = models.Select(model => new MeshesInfo(model, color)).ToArray();
+            _SetParameters(position, color, reflectanceFactors, rotationInfo);
+        }
 
+        private void _SetParameters(Vector3 position, Color color, ReflectanceFactors reflectanceFactors, RotationInfo rotationInfo)
+        {
             this.Color = color;
             this.RotationInfo = rotationInfo ?? new RotationInfo(0, 0, 0);
             this.ReflectanceFactors = reflectanceFactors ?? new ReflectanceFactors();
-                ;
+
             this.Position = position;
 
             _currentFrame = 0;
-            
-            _UpdateObject();            
-        }
 
+            _UpdateObject();
+        }
+        
         public void Draw(Drawer drawer)
         {
             drawer.Draw(this);
@@ -91,6 +95,16 @@ namespace Projekt4.DrawableObjects
                 ? _currentFrame = this._meshesInfo.Length - 1 : _currentFrame - 1);
 
             _UpdateObject();
+        }
+
+        public float GetWidth()
+        {
+            return this.CurrentMesh.MaxX - this.CurrentMesh.MinX;
+        }
+
+        public float GetLength()
+        {
+            return this.CurrentMesh.MaxZ - this.CurrentMesh.MinZ;
         }
         
         private void _UpdateObject()

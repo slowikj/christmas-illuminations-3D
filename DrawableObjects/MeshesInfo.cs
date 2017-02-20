@@ -17,6 +17,35 @@ namespace Projekt4.DrawableObjects
         public List<Vector3[]> SidePositions { get; private set; }
         public List<Matrix> LocalToGlobalMatrices { get; private set; }
 
+        public float MaxX
+        {
+            get {  return this.SmoothVertices.Select(vertices => vertices.Max(vertex => vertex.Position.X)).Max() ;}
+        }
+
+        public float MinX
+        {
+            get { return this.SmoothVertices.Select(vertices => vertices.Min(vertex => vertex.Position.X)).Min(); }
+        }
+
+        public float MaxY
+        {
+            get { return this.SmoothVertices.Select(vertices => vertices.Max(vertex => vertex.Position.Y)).Max(); }
+        }
+
+        public float MinY
+        {
+            get { return this.SmoothVertices.Select(vertices => vertices.Min(vertex => vertex.Position.Y)).Min(); }
+        }
+
+        public float MaxZ
+        {
+            get { return this.SmoothVertices.Select(vertices => vertices.Max(vertex => vertex.Position.Z)).Max(); }
+        }
+        public float MinZ
+        {
+            get { return this.SmoothVertices.Select(vertices => vertices.Min(vertex => vertex.Position.Z)).Min(); }
+        }
+
 
         public MeshesInfo(Model model, Color color)
         {
