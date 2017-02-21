@@ -79,7 +79,8 @@ i~wybór jednego z~dwóch modeli oświetlenia:
 Na~poniższym diagramie przedstawiono zbiór przypadków użycia dla~użytkowanika: \\
 \begin{figure}[H]
 	\centering 
-	\includegraphics[scale=0.5]{UseCase.pdf}
+	\includegraphics[scale=0.45]{UseCase.pdf}
+	\caption{Przypadki użycia}\label{fig:pictures}
 \end{figure}
 Opisy przypadków użycia dla~użytkownika: \\ \\
 \begin{tabular}{|m{2.5cm}|m{3cm}|m{5cm}|m{5cm}|}
@@ -129,6 +130,7 @@ obiektu, który~ma być rysowany (\textit{SceneActor}).
 \begin{figure}[H]
 	\centering 
 	\includegraphics[scale=0.6]{Drawers.pdf}
+	\caption{Narzędzia do rysowania}\label{fig:pictures}
 \end{figure}
 Każdy ,,rysownik'' posiada ,,przybornik do rysowania'' (\textit{DrawingKit}) oraz~,,efekt'', w~którym znajduje~się implementacja shadera. Przed~rozpoczęciem rysowania, w~wymaganych polach shadera są ustawiane konkretne wartości odczytane z~aktualnie
 przekazanego obiektu. 
@@ -142,6 +144,7 @@ dodawania nowych ,,rysowników'' oraz~zmiany aktualnego sposobu rysowania. \\ \\
 \begin{figure}[H]
 	\centering 
 	\includegraphics[scale=0.6]{IDrawable.pdf}
+	\caption{Obiekty rysowane na scenie}\label{fig:pictures}
 \end{figure}
 Rysowane mogą być obiekty implementujące interfejs \textit{IDrawable} takie jak: \textit{SceneActor}, \textit{Illumination}, \textit{Scene}.
 
@@ -156,10 +159,22 @@ gdyż świecące lampki oświetlają pozostałe i~można odnieść wrażenie, ż
 Klasa \textit{Scene} enkapsuluje pojedynczą scenę. Zapisane są w~niej referencje do~wszystkich obiektów, które~się na~niej znajdują.
 W~szczególności, posiada referencję do~obiektu, którym~użytkownik porusza (\textit{CurrentObject}).
 Co~więcej, w~scenie jest zapisana referencja do~,,zarządcy kamer'', który~jest odpowiedzialny za~to, co~użytkownik widzi na~ekranie.
-Zarządzanie kamerami zostanie wyjaśnione w~następnym podrozdziale.
+Zarządzanie kamerami zostanie wyjaśnione w~późniejszym podrozdziale.
 
 Rysowanie zostało zaimplementowane przy~pomocy wzorca projektowego ,,kompozyt'' (obiekty rysowalne są budowane za~pomocą mniejszych
 obiektów rysowalnych) i~,,strategia'' (\textit{DrawersManager}) oraz~,,podwójnego rozsyłania'' (\textit{ang. double dispatch}).
+
+\subsubsection{Tworzenie wzorów iluminacji}
+Każda z~iluminacji składa~się  z~wielu elementów (pojedynczych egzemplarzy wybranego modelu), które są ułożone przy~pomocy danego wzoru.
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.6]{PatternGenerator.pdf}
+	\caption{Komponenty użyte do generowania wzorów}\label{fig:pictures}
+\end{figure}
+Współrzędne obiektów są generowane przy~pomocy klasy \textit{PatternGenerator}. Aby~otrzymać współrzędne punktów, w~których
+mają się znajdować elementarne składowe danej iluminacji, musimy podać trzy funkcje dwuwymiarowe, które~określają współrzędne $x$, $y$ i~$z$
+odpowiednio. Funkcje mogą być podane w~dowolnej formie (przy~pomocy współrzędnych kartezjańskich, polarnych itd), jednakże, dla~każdej
+funkcji należy podać funkcję przejścia do~współrzędnych kartezjańskich.
 
 \subsubsection{Zarządzanie kamerami}
 Zarządzanie kamerami odbywa~się w~podobny sposób do~zarządzania ,,rysownikami''. Mianowicie, za~zarządzanie kamerami odpowiedzialny jest \textit{CameraManager}, która~posiada referencje do~wszystkich aktualnie istniejących kamer i~pamięta obecnie ustawioną kamerę. 
@@ -168,6 +183,7 @@ ustawionej kamery.  \\
 \begin{figure}[H]
 	\centering 
 	\includegraphics[scale=0.6]{Cameras.pdf}
+	\caption{Kamery}\label{fig:pictures}
 \end{figure}
 
 W~aplikacji występują 3 rodzaje kamer -- jedna ,,stała'' i~dwie związane z~ruchomym obiektem. Owym~rodzajom odpowiadają odpowiednio klasy

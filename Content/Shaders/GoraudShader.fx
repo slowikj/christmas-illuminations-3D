@@ -78,7 +78,7 @@ ShaderData VertexShaderFunction(ShaderData input)
 		float3 specular = (max(pow(specularDotProduct, Shininess), 0)) * LightColor[i];
 		
 
-		c += (diffuse + specular) / sqrDist;
+		c += saturate((diffuse * kd + specular * ks) / sqrDist);
 	}
 
 	c = saturate(c);

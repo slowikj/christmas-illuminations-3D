@@ -37,8 +37,8 @@ namespace Projekt4
 
             graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
 
-            graphics.PreferredBackBufferWidth = 1500;  // set this value to the desired width of your window
-            graphics.PreferredBackBufferHeight = 1000;   // set this value to the desired height of your window
+            graphics.PreferredBackBufferWidth = 2100;
+            graphics.PreferredBackBufferHeight = 1000;
             graphics.ApplyChanges();
 
             //graphics.IsFullScreen = true;
@@ -128,10 +128,10 @@ namespace Projekt4
             Scene res = new Scene();
 
             SceneActor moveableObject = new SceneActor(_models["kitty"], new Vector3(0, -(float)0.4, 0), Color.Cyan,
-                new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
-                                       new Vector3((float)0.01, (float)0.1, (float)0.1),
-                                       new Vector3((float)0.001, (float)0.01, (float)0.01),
-                                       500),
+                new ReflectanceFactors(new Vector3((float)0.1, (float)0.1, (float)0.1),
+                                       new Vector3((float)1, (float)1, (float)1),
+                                       new Vector3((float)1, (float)1, (float)1),
+                                       60),
                 new RotationInfo(0, MathHelper.ToRadians(180), 0));
 
             res.AddObject(moveableObject);
@@ -148,7 +148,7 @@ namespace Projekt4
             
             res.AddIllumination(new Illumination(_models["ball"][0],
                 sinOnCurve.GetPoints(150), Color.Red,
-                new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 1)));
+                new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 10)));
 
             res.AddIllumination(new Illumination(_models["ball"][0],
                 _GetFlowerPointsPattern(), Color.Violet,
@@ -217,7 +217,7 @@ namespace Projekt4
                     new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
                    new Vector3((float)0.5, (float)0.5, (float)0.5),
                    new Vector3((float)0.1, (float)0.1, (float)0.1),
-                   2000)));
+                   50)));
 
             return trees;
         }

@@ -31,7 +31,6 @@ namespace Projekt4.Drawers
                 for(int j = 0; j < meshesInfo.SidePositions[i].Length; ++j)
                 {
                     _effect.Parameters["SidePosition"].SetValue(meshesInfo.SidePositions[i][j]);
-                    //_DrawTriangles(meshesInfo.FlatVertices[i].Skip(j * 3).Take(3).ToArray());
                     _DrawTriangles(new VertexPositionNormalColor[] {
                         meshesInfo.FlatVertices[i][j * 3],
                         meshesInfo.FlatVertices[i][j * 3 + 1],

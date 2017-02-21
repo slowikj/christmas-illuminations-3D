@@ -95,7 +95,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 		float3 specular = (max(pow(specularDotProduct, Shininess), 0)) * LightColor[i];
 
 
-		res += saturate((diffuse + specular) / sqrDist);
+		res += saturate((diffuse * ks + specular * kd) / sqrDist);
 	}
 
 	return float4(saturate(res), 1);

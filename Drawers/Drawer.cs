@@ -67,7 +67,7 @@ namespace Projekt4.Drawers
             _effect.Parameters["Shininess"].SetValue(drawableObject.ReflectanceFactors.Shininess);
             _effect.Parameters["ka"].SetValue(drawableObject.ReflectanceFactors.Ambient);
             _effect.Parameters["kd"].SetValue(drawableObject.ReflectanceFactors.Diffuse);
-            _effect.Parameters["ks"].SetValue(drawableObject.ReflectanceFactors.Shininess);
+            _effect.Parameters["ks"].SetValue(drawableObject.ReflectanceFactors.Specular);
         }
 
         protected void _SetWorldMatrices(Matrix localToGlobalMatrix, Matrix objectWorldMatrix)
