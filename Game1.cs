@@ -164,7 +164,7 @@ namespace Projekt4
 
             Dictionary<String, Camera> res = new Dictionary<string, Camera>();
 
-            res.Add("Constant", new ConstantCamera(CONSTANT_CAMERA_POSITION, Vector3.Zero));
+            res.Add("Constant", new Camera(CONSTANT_CAMERA_POSITION, Vector3.Zero));
 
             res.Add("MoveableObjectCamera", new MoveableObjectCamera(moveableObject));
 

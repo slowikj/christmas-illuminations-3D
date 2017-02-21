@@ -124,7 +124,7 @@ $7$ & Oddanie projektu & 22.02.2017 & 22.02.2017 & 1 dzień \cr
 \subsection{Architektura rozwiązania}
 Rozwiązanie zostało podzielone na~poszczególne częsci:
 \subsubsection{Rysowanie}
-Do~rysowania przeznaczone są klasy pochodne klasy \textit{Drawer}. Implementują one konkretny algorytm rysowania, korzystając z~publicznych pól
+Do~rysowania przeznaczone są klasy pochodne klasy \textit{Drawer}. Implementują one konkretny algorytm, korzystając z~publicznych pól
 obiektu, który~ma być rysowany (\textit{SceneActor}). 
 \begin{figure}[H]
 	\centering 
@@ -154,7 +154,7 @@ Klasa \textit{Illumination} reprezentuje wzór światełek. Składa~się ona z~m
 gdyż świecące lampki oświetlają pozostałe i~można odnieść wrażenie, że~wszystkie światełka są zapalone. 
 
 Klasa \textit{Scene} enkapsuluje pojedynczą scenę. Zapisane są w~niej referencje do~wszystkich obiektów, które~się na~niej znajdują.
-Ponadto, posiada referencję do~obiektu, którym~użytkownik porusza (\textit{CurrentObject}).
+W~szczególności, posiada referencję do~obiektu, którym~użytkownik porusza (\textit{CurrentObject}).
 Co~więcej, w~scenie jest zapisana referencja do~,,zarządcy kamer'', który~jest odpowiedzialny za~to, co~użytkownik widzi na~ekranie.
 Zarządzanie kamerami zostanie wyjaśnione w~następnym podrozdziale.
 
@@ -162,5 +162,53 @@ Rysowanie zostało zaimplementowane przy~pomocy wzorca projektowego ,,kompozyt''
 obiektów rysowalnych) i~,,strategia'' (\textit{DrawersManager}) oraz~,,podwójnego rozsyłania'' (\textit{ang. double dispatch}).
 
 \subsubsection{Zarządzanie kamerami}
+Zarządzanie kamerami odbywa~się w~podobny sposób do~zarządzania ,,rysownikami''. Mianowicie, za~zarządzanie kamerami odpowiedzialny jest \textit{CameraManager}, która~posiada referencje do~wszystkich aktualnie istniejących kamer i~pamięta obecnie ustawioną kamerę. 
+Ponadto, posiada~dwie właściwości -- \textit{ViewMatrix} i~\textit{CameraPosition} odczytywane przy~pomocy odpowiadających publicznych pól aktualnie
+ustawionej kamery.  \\ 
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.6]{Cameras.pdf}
+\end{figure}
 
+W~aplikacji występują 3 rodzaje kamer -- jedna ,,stała'' i~dwie związane z~ruchomym obiektem. Owym~rodzajom odpowiadają odpowiednio klasy
+\textit{Camera} i~dwie klasy pochodne abstrakcyjnej klasy \textit{ObjectCamera}.
+
+Jako~że \textit{ObjectCamera} reprezentuje klasę kamer związanych z~ruchomym obiektem, to~konieczne jest powiązanie danej kamery z~konkretnym
+obiektem. W~aplikacji realizowane jest to~za pomocą architektury zdarzeń (może to~być również zaimplementowane za~pomocą wzorca projektowego ,,Obserwator'', jeśli~interesujący nas język programowania nie~udostępnia interfejsu zdarzeń). Mianowicie, w~trakcie tworzenia obiektu
+kamery (związanej z~obiektem), klasa kamery ,,rejestruje''~się na~otrzymywanie informacji o~zajściu zdarzenia (zdarzenie \textit{ObjectChanged}).
+Zatem obiekt ,,obserwowany'' nie~wie przez~kogo jest obserwowany. Owe~zdarzenie jest generowane po~zmianie położenia danego obiektu.
+
+Przed~rozpoczęciem procedury rysowania ustawiane są aktualne dane dotyczące widoku (\textit{ViewMatrix} i~\textit{CameraPosition}) zapisane
+w~\textit{CameraManager}.
+
+\section{Dokumentacja końcowa (powykonawcza)}
+\subsection{Biblioteki}
+Aplikacja została zaimplementowana w~technologii .NET z~pomocą biblioteki graficznej \textit{Monogame}.
+\subsection{Instrukcja użycia}
+\subsubsection{Sterowanie obiektem}
+Sterowanie odbywa~się przy~pomocy strzałek: 
+\begin{itemize}
+	\item Obrót za pomocą strzałek ,,prawo'' / ,,lewo''
+	\item Ruch w~przód/tył za~pomocą strzałek ,,góra'' / ,,dół''
+\end{itemize}
+\subsubsection{Zmiana modelu oświetlenia}
+Dostępne są dwa modele oświetlenia:
+\begin{itemize}
+	\item Ustawienie modelu Phonga za~pomocą kombinacji klawiszy: \texttt{Alt + P}
+	\item Ustawienie modelu Blinna za~pomocą kombinacji klawiszy: \texttt{Alt + B}
+\end{itemize}
+\subsubsection{Zmiana modelu cieniowania}
+Dostępne są trzy modele cieniowania
+\begin{itemize}
+	\item Ustawienie modelu Phonga za~pomocą kombinacji klawiszy: \texttt{Shift + P}
+	\item Ustawienie modelu Gorauda za~pomocą kombinacji klawiszy: \texttt{Shift + G}
+	\item Ustawienie cieniowania płaskiego za~pomocą kombinacji klawiszy: \texttt{Shift + F}
+\end{itemize}
+\subsubsection{Zmiana kamery}
+Dostępne są trzy kamery:
+\begin{itemize}
+	\item Zmiana na~kamerę stałą za~pomocą kombinacji klawiszy: \texttt{Ctrl + C}
+	\item Zmiana na~kamerę nieruchomą śledzącą ruchomy obiekt: \texttt{Ctrl + S}
+	\item Zmiana na~kamerę ruchomą, patrzącą ,,oczami'' ruchomego obiektu: \texttt{Ctrl + M}
+\end{itemize}
 \end{document}

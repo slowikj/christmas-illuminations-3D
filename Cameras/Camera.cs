@@ -12,7 +12,7 @@ using Projekt4.DrawableObjects;
 
 namespace Projekt4.Cameras
 {
-    public abstract class Camera
+    public class Camera
     {
         protected readonly Vector3 _DEFAULT_CAMERA_POSITION = new Vector3(0, 0, 3);
         protected readonly Vector3 _DEFAULT_CAMERA_TARGET = new Vector3(0, 0, 0); 
@@ -24,13 +24,11 @@ namespace Projekt4.Cameras
             _SetCamera(_DEFAULT_CAMERA_POSITION, _DEFAULT_CAMERA_TARGET);
         }
         
-        protected Camera(Vector3 position, Vector3 cameraTarget)
+        public Camera(Vector3 position, Vector3 cameraTarget)
         {
             _SetCamera(position, cameraTarget);
         }
-
-        public abstract void ObjectChangedHandler(Object sender, ObjectChangedEventArgs eventArgs);
-                
+        
         protected void _SetCamera(Vector3 cameraPosition, Vector3 cameraTarget)
         {
             this.CameraPosition = cameraPosition;

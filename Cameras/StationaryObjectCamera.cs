@@ -12,11 +12,12 @@ using Projekt4.DrawableObjects;
 
 namespace Projekt4.Cameras
 {
-    public class StationaryObjectCamera : Camera
+    public class StationaryObjectCamera : ObjectCamera
     {
         public StationaryObjectCamera(Vector3 position, SceneActor connectedObject)
             : base(position, connectedObject.Position)
         {
+            _SetCamera(position, connectedObject.Position);
             connectedObject.ObjectChanged += this.ObjectChangedHandler;
         }
         public override void ObjectChangedHandler(object sender, ObjectChangedEventArgs eventArgs)

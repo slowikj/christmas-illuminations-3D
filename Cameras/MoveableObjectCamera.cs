@@ -7,7 +7,7 @@ using Projekt4.DrawableObjects;
 
 namespace Projekt4.Cameras
 {
-    public class MoveableObjectCamera : Camera
+    public class MoveableObjectCamera : ObjectCamera
     {
         public MoveableObjectCamera(SceneActor drawableObject)
             : base(drawableObject.Position, drawableObject.Position + drawableObject.ViewVector)
