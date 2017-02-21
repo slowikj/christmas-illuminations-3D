@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Projekt4.Drawers;
 using Projekt4.DrawableObjects;
 using Projekt4.Cameras;
+using Projekt4.PatternGenerators;
 
 namespace Projekt4
 {
@@ -36,8 +37,12 @@ namespace Projekt4
 
             graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
 
-            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferWidth = 1500;  // set this value to the desired width of your window
+            graphics.PreferredBackBufferHeight = 1000;   // set this value to the desired height of your window
             graphics.ApplyChanges();
+
+            //graphics.IsFullScreen = true;
+            //graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -126,7 +131,8 @@ namespace Projekt4
                 new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
                                        new Vector3((float)0.01, (float)0.1, (float)0.1),
                                        new Vector3((float)0.001, (float)0.01, (float)0.01),
-                                       500));
+                                       500),
+                new RotationInfo(0, MathHelper.ToRadians(180), 0));
 
             res.AddObject(moveableObject);
 
@@ -135,10 +141,18 @@ namespace Projekt4
             _AddTreesWithLamps(res, -5, 1, Color.Magenta, _models["ball"][0]);
             _AddTreesWithLamps(res, 5, -1, Color.Yellow, _models["cone"][0]);
 
-            PatternGenerator sinOnCurve = new PatternGenerator(a => a, a => (float)Math.Sin(a), a => 10 * a * (a - 3));
+            PatternGenerator sinOnCurve = new PatternGenerator(
+                new Function2D(a => a, v => v.Y, new Range(-3, 3)),
+                new Function2D(a => (float)Math.Sin(a), v => v.Y, new Range(0, 10 * (float)Math.PI)),
+                new Function2D(a => 10 * a * (a - 3), v => v.Y, new Range(0, 3)));
+            
             res.AddIllumination(new Illumination(_models["ball"][0],
-                sinOnCurve.GetPoints(150, -3, 3, 0, 10 * (float)Math.PI, 0, 3), Color.Red,
+                sinOnCurve.GetPoints(150), Color.Red,
                 new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 1)));
+
+            res.AddIllumination(new Illumination(_models["ball"][0],
+                _GetFlowerPointsPattern(), Color.Violet,
+                new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 5)));
 
             foreach (SceneActor plane in _GetPlaneMesh(_models["sqrPlane"], Color.DarkGreen, new Vector3(-3, -(float)1, 0), 8, 4))
             {
@@ -175,10 +189,13 @@ namespace Projekt4
 
         private void _AddTreesWithLamps(Scene scene, int xVal, int incX, Color lightColor, Model lamp)
         {
-            PatternGenerator patternGenerator = new PatternGenerator(a => xVal + incX, a => (float)Math.Sin(a), a => -a);
-
+            PatternGenerator sin = new PatternGenerator(
+                new Function2D(a => xVal + incX, v => v.Y, new Range(0, 1)),
+                new Function2D(a => (float)Math.Sin(a), v => v.Y, new Range(0, (float)Math.PI * 8)),
+                new Function2D(a => -a, v => v.Y, new Range(-10, 0)));
+            
             scene.AddIllumination(new Illumination(lamp,
-                patternGenerator.GetPoints(100, 0, 1, 0, (float)Math.PI * 8, -10, 0), lightColor,
+                sin.GetPoints(100), lightColor,
                 new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 1)));
 
             
@@ -190,13 +207,17 @@ namespace Projekt4
 
         private IEnumerable<IDrawable> _GetForest(int xVal)
         {
-            IEnumerable<IDrawable> trees = new PatternGenerator(x => xVal, x => 1, z => -z)
-                .GetPoints(5, 0, 1, 0, 1, -10, 0)
+            PatternGenerator p = new PatternGenerator(
+                new Function2D(x => xVal, v => v.Y, new Range(0, 1)),
+                new Function2D(x => 1, v => v.Y, new Range(0, 1)),
+                new Function2D(z => -z, v => v.Y, new Range(-10, 0)));
+
+            IEnumerable<IDrawable> trees = p.GetPoints(5)
                 .Select(point => new SceneActor(_models["christmasTree"], point, Color.Green,
                     new ReflectanceFactors(new Vector3((float)0.01, (float)0.01, (float)0.01),
                    new Vector3((float)0.5, (float)0.5, (float)0.5),
                    new Vector3((float)0.1, (float)0.1, (float)0.1),
-                   2000000)));
+                   2000)));
 
             return trees;
         }
@@ -225,6 +246,16 @@ namespace Projekt4
             }
 
             return res;
+        }
+
+        private IEnumerable<Vector3> _GetFlowerPointsPattern()
+        {
+            PatternGenerator flowerPattern = new PatternGenerator(
+                new Function2D(a => a, v => v.Y, new Range(-(float)Math.PI, (float)Math.PI)),
+                new Function2D(p => 3 + 2 * (float)Math.Sin(8 * p), v => v.X * (float)Math.Sin(v.Y), new Range(-(float)Math.PI, (float)Math.PI)),
+                new Function2D(p => 18, v => v.Y, new Range(0, 1)));
+
+            return flowerPattern.GetPoints(200);
         }
 
         /// <summary>
