@@ -196,7 +196,7 @@ namespace Projekt4
             
             scene.AddIllumination(new Illumination(lamp,
                 sin.GetPoints(100), lightColor,
-                new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 1)));
+                new ReflectanceFactors(Vector3.Zero, Vector3.One, Vector3.One, 10)));
 
             
             foreach (IDrawable tree in _GetForest(xVal))
